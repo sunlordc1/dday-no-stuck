@@ -1,0 +1,11 @@
+{
+  "name": "dday-no-stuck",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "combine": "node combine.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
