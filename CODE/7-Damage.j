@@ -505,9 +505,9 @@ struct DMGEVENT
         if DMGSTAT.dmg > 0 then 
             call Proc.onAfterDamage() 
         endif
-        if Boo.ishero(DMGSTAT.caster) then 
-            call BJDebugMsg(R2S(DMGSTAT.dmg))
-        endif
+        // if Boo.ishero(DMGSTAT.caster) then 
+        //     call BJDebugMsg(R2S(DMGSTAT.dmg))
+        // endif
         call BlzSetEventDamage(DMGSTAT.dmg) 
         // call GRAPHIC.run_graphic(DMGSTAT.victim, DMGSTAT.caster, DMGSTAT.dmg, color_dmg_type) 
     endmethod 

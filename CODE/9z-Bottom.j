@@ -71,6 +71,9 @@ struct GAME
         call BlzFrameSetAbsPoint(tooltip, FRAMEPOINT_BOTTOMRIGHT, 0.8, 0.24)
         call Interval.start()
         call EV_Select.setup()
+        call EULI.setup()
+        call EAI.setup()
+        call EventSpell.setup()
         call DummyX.new()
 
     endmethod

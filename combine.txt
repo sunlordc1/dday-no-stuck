@@ -7583,7 +7583,7 @@ function ap takes nothing returns nothing
     endif
 endfunction
 function np takes nothing returns boolean
-    return(IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO))and(GetItemTypeId(GetManipulatedItem()) == 'I01S')
+    return(IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO))and(GetItemTypeId(GetManipulatedItem()) == 'I01S' or GetItemTypeId(GetManipulatedItem()) == 'brac' )
 endfunction
 function Vp takes nothing returns boolean
     return(GetItemTypeId(UnitItemInSlotBJ(GetManipulatingUnit(), bj_forLoopAIndex)) == 'I01S')
@@ -7597,7 +7597,7 @@ function Xp takes nothing returns nothing
     set bj_forLoopAIndexEnd = 6
     loop
         exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
-        if(Vp())then
+        if(Vp()) or GetItemTypeId(UnitItemInSlotBJ(GetManipulatingUnit(), bj_forLoopAIndex)) == 'brac'then
             set Ix = (Ix + 1)
         endif
         set bj_forLoopAIndex = bj_forLoopAIndex + 1
@@ -9700,7 +9700,7 @@ endfunction
 function rt takes nothing returns boolean
     return(GetUnitTypeId(GetSummonedUnit()) == 'e00A')and(Er == 4)
 endfunction
-function it takes nothing returns nothing
+function ittt takes nothing returns nothing
     call VG(GetSummonedUnit())
     call SetUnitInvulnerable(GetSummoningUnit(), true)
     call IssueImmediateOrderById(GetSummoningUnit(), 851972)
@@ -11348,6 +11348,9 @@ function IW takes nothing returns nothing
     set Zv = 1
     call DestroyTimerDialog(ve[Zv])
     call ReviveHeroLoc(Oe[Zv], GetRectCenter(cC), true)
+    if GetUnitTypeId(Oe[Zv]) == 'H011' then 
+        call FlyX.setup(Oe[Zv])
+    endif
     call PanCameraToTimedLocForPlayer(Player(- 1 + (Zv)), GetRectCenter(cC), 1.)
     call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ((Ne[Zv] + (GetPlayerName(Player(- 1 + (Zv))) + "|r")) + "'s hero has revived."))
     call SetUnitManaPercentBJ(Oe[Zv], 100)
@@ -11356,6 +11359,9 @@ function AW takes nothing returns nothing
     set Zv = 2
     call DestroyTimerDialog(ve[Zv])
     call ReviveHeroLoc(Oe[Zv], GetRectCenter(cC), true)
+    if GetUnitTypeId(Oe[Zv]) == 'H011' then 
+        call FlyX.setup(Oe[Zv])
+    endif
     call PanCameraToTimedLocForPlayer(Player(- 1 + (Zv)), GetRectCenter(cC), 1.)
     call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ((Ne[Zv] + (GetPlayerName(Player(- 1 + (Zv))) + "|r")) + "'s hero has revived."))
     call SetUnitManaPercentBJ(Oe[Zv], 100)
@@ -11364,6 +11370,9 @@ function NW takes nothing returns nothing
     set Zv = 3
     call DestroyTimerDialog(ve[Zv])
     call ReviveHeroLoc(Oe[Zv], GetRectCenter(cC), true)
+    if GetUnitTypeId(Oe[Zv]) == 'H011' then 
+        call FlyX.setup(Oe[Zv])
+    endif
     call PanCameraToTimedLocForPlayer(Player(- 1 + (Zv)), GetRectCenter(cC), 1.)
     call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ((Ne[Zv] + (GetPlayerName(Player(- 1 + (Zv))) + "|r")) + "'s hero has revived."))
     call SetUnitManaPercentBJ(Oe[Zv], 100)
@@ -11372,6 +11381,9 @@ function bW takes nothing returns nothing
     set Zv = 4
     call DestroyTimerDialog(ve[Zv])
     call ReviveHeroLoc(Oe[Zv], GetRectCenter(cC), true)
+    if GetUnitTypeId(Oe[Zv]) == 'H011' then 
+        call FlyX.setup(Oe[Zv])
+    endif
     call PanCameraToTimedLocForPlayer(Player(- 1 + (Zv)), GetRectCenter(cC), 1.)
     call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ((Ne[Zv] + (GetPlayerName(Player(- 1 + (Zv))) + "|r")) + "'s hero has revived."))
     call SetUnitManaPercentBJ(Oe[Zv], 100)
@@ -11380,6 +11392,9 @@ function BW takes nothing returns nothing
     set Zv = 5
     call DestroyTimerDialog(ve[Zv])
     call ReviveHeroLoc(Oe[Zv], GetRectCenter(cC), true)
+    if GetUnitTypeId(Oe[Zv]) == 'H011' then 
+        call FlyX.setup(Oe[Zv])
+    endif
     call PanCameraToTimedLocForPlayer(Player(- 1 + (Zv)), GetRectCenter(cC), 1.)
     call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ((Ne[Zv] + (GetPlayerName(Player(- 1 + (Zv))) + "|r")) + "'s hero has revived."))
     call SetUnitManaPercentBJ(Oe[Zv], 100)
@@ -11388,6 +11403,9 @@ function cW takes nothing returns nothing
     set Zv = 7
     call DestroyTimerDialog(ve[Zv])
     call ReviveHeroLoc(Oe[Zv], GetRectCenter(CC), true)
+    if GetUnitTypeId(Oe[Zv]) == 'H011' then 
+        call FlyX.setup(Oe[Zv])
+    endif
     call PanCameraToTimedLocForPlayer(Player(- 1 + (Zv)), GetRectCenter(CC), 1.)
     call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ((Ne[Zv] + (GetPlayerName(Player(- 1 + (Zv))) + "|r")) + "'s hero has revived."))
     call SetUnitManaPercentBJ(Oe[Zv], 100)
@@ -11396,6 +11414,9 @@ function CW takes nothing returns nothing
     set Zv = 8
     call DestroyTimerDialog(ve[Zv])
     call ReviveHeroLoc(Oe[Zv], GetRectCenter(CC), true)
+    if GetUnitTypeId(Oe[Zv]) == 'H011' then 
+        call FlyX.setup(Oe[Zv])
+    endif
     call PanCameraToTimedLocForPlayer(Player(- 1 + (Zv)), GetRectCenter(CC), 1.)
     call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ((Ne[Zv] + (GetPlayerName(Player(- 1 + (Zv))) + "|r")) + "'s hero has revived."))
     call SetUnitManaPercentBJ(Oe[Zv], 100)
@@ -11404,6 +11425,9 @@ function dW takes nothing returns nothing
     set Zv = 9
     call DestroyTimerDialog(ve[Zv])
     call ReviveHeroLoc(Oe[Zv], GetRectCenter(CC), true)
+    if GetUnitTypeId(Oe[Zv]) == 'H011' then 
+        call FlyX.setup(Oe[Zv])
+    endif
     call PanCameraToTimedLocForPlayer(Player(- 1 + (Zv)), GetRectCenter(CC), 1.)
     call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ((Ne[Zv] + (GetPlayerName(Player(- 1 + (Zv))) + "|r")) + "'s hero has revived."))
     call SetUnitManaPercentBJ(Oe[Zv], 100)
@@ -11412,6 +11436,9 @@ function DW takes nothing returns nothing
     set Zv = 10
     call DestroyTimerDialog(ve[Zv])
     call ReviveHeroLoc(Oe[Zv], GetRectCenter(CC), true)
+    if GetUnitTypeId(Oe[Zv]) == 'H011' then 
+        call FlyX.setup(Oe[Zv])
+    endif
     call PanCameraToTimedLocForPlayer(Player(- 1 + (Zv)), GetRectCenter(CC), 1.)
     call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ((Ne[Zv] + (GetPlayerName(Player(- 1 + (Zv))) + "|r")) + "'s hero has revived."))
     call SetUnitManaPercentBJ(Oe[Zv], 100)
@@ -11420,6 +11447,9 @@ function fW takes nothing returns nothing
     set Zv = 11
     call DestroyTimerDialog(ve[Zv])
     call ReviveHeroLoc(Oe[Zv], GetRectCenter(CC), true)
+    if GetUnitTypeId(Oe[Zv]) == 'H011' then 
+        call FlyX.setup(Oe[Zv])
+    endif
     call PanCameraToTimedLocForPlayer(Player(- 1 + (Zv)), GetRectCenter(CC), 1.)
     call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ((Ne[Zv] + (GetPlayerName(Player(- 1 + (Zv))) + "|r")) + "'s hero has revived."))
     call SetUnitManaPercentBJ(Oe[Zv], 100)
@@ -12058,6 +12088,7 @@ function rY takes nothing returns nothing
     set fe = (fe - 1)
     call ExplodeUnitBJ(GetTriggerUnit())
     call CreateNUnitsAtLoc(1, 'H011', GetOwningPlayer(GetEnteringUnit()), Jh(GetOwningPlayer(GetEnteringUnit())), bj_UNIT_FACING)
+    call FlyX.setup(bj_lastCreatedUnit)
     call SetDoodadAnimationRectBJ("death", 'D000', gC)
     call PanCameraToTimedLocForPlayer(GetOwningPlayer(GetEnteringUnit()), Jh(GetOwningPlayer(GetEnteringUnit())), 2.)
     call DisableTrigger(GetTriggeringTrigger())
@@ -15722,7 +15753,7 @@ function q3 takes nothing returns nothing
     call TriggerAddAction(nE, function ot)
     call TriggerRegisterAnyUnitEventBJ(VE, EVENT_PLAYER_UNIT_SUMMON)
     call TriggerAddCondition(VE, Condition(function rt))
-    call TriggerAddAction(VE, function it)
+    call TriggerAddAction(VE, function ittt)
     call TriggerRegisterAnyUnitEventBJ(EE, EVENT_PLAYER_UNIT_USE_ITEM)
     call TriggerAddCondition(EE, Condition(function at))
     call TriggerAddAction(EE, function nt)
@@ -22359,6 +22390,48 @@ function CallFunc takes nothing returns nothing
     call r8v()
 endfunction
 
+
+///======= Preload Function   
+// === When creating a new ability or unit that hasn't been used in the map,he game may experience a slight lag.   
+// === Therefore, you should initialize them at the start of the game to ensure a smooth gameplay experience.  
+
+function Preload_Unit takes integer id returns nothing 
+    call RemoveUnit(CreateUnit(Player(PLAYER_NEUTRAL_PASSIVE), id, GetRandomReal(- 1000, 1000), GetRandomReal(- 1000, 1000), 270)) 
+endfunction 
+   
+function Preload_Item takes integer id returns nothing 
+    call RemoveItem(CreateItem(id, 0, 0)) 
+endfunction 
+   
+function Preload_Ability takes integer id returns nothing 
+    local unit u = CreateUnit(Player(PLAYER_NEUTRAL_PASSIVE), 'nzin', GetRandomReal(- 1000, 1000), 0, 270) 
+    call UnitAddAbility(u, id) 
+    call UnitRemoveAbility(u, id) 
+    call RemoveUnit(u) 
+    set u = null 
+endfunction 
+   
+function Preload_Sound takes unit u, string path returns nothing 
+    local sound s = CreateSound(path, false, true, true, 12700, 12700, "") 
+    call SetSoundVolume(s, 100) 
+    call AttachSoundToUnit(s, u) 
+    call StartSound(s) 
+    call KillSoundWhenDone(s) 
+endfunction 
+
+//====================================================================================  
+///======= Ultils   
+
+function CreateImageEx takes string imagePath, real size, real x, real y, real z, boolean showImage returns image
+    local image i = CreateImage(imagePath, size, size, 0, x - (size / 2), y - (size / 2), z, 0, 0, 0, 2)
+    call SetImageRenderAlways(i, true)
+    call ShowImage(i, showImage)
+    return i
+endfunction
+
+
+
+
 struct Bonus 
     static key Physical 
     static key Spell 
@@ -22866,9 +22939,9 @@ struct DMGEVENT
         if DMGSTAT.dmg > 0 then 
             call Proc.onAfterDamage() 
         endif
-        if Boo.ishero(DMGSTAT.caster) then 
-            call BJDebugMsg(R2S(DMGSTAT.dmg))
-        endif
+        // if Boo.ishero(DMGSTAT.caster) then 
+        //     call BJDebugMsg(R2S(DMGSTAT.dmg))
+        // endif
         call BlzSetEventDamage(DMGSTAT.dmg) 
         // call GRAPHIC.run_graphic(DMGSTAT.victim, DMGSTAT.caster, DMGSTAT.dmg, color_dmg_type) 
     endmethod 
@@ -22892,7 +22965,9 @@ struct Proc
         local integer lv = 0
         local integer i = 0
         local real r = 0.00
-    
+        if Boo.ishero( DMGSTAT.caster) then 
+            set DMGSTAT.spell_bonus = DMGSTAT.spell_bonus + (Hero.intr(DMGSTAT.caster) * 0.005)
+        endif
     endmethod 
     static method SpellStat takes nothing returns nothing 
         if IsUnitType(DMGSTAT.caster, UNIT_TYPE_HERO) then 
@@ -22900,7 +22975,7 @@ struct Proc
     endmethod 
      
     static method onHit takes nothing returns nothing 
-  
+        call Sentry.onHit()
   
     endmethod 
     static method onCritical takes nothing returns nothing 
@@ -23320,7 +23395,7 @@ struct missile_Touch_Nova extends SKILL
 endstruct
 
 
-struct missile_Pierce extends SKILL 
+struct missile_pierce extends SKILL 
     string attach = ""
     private static method spell_update takes nothing returns nothing 
         local thistype this = runtime.get() 
@@ -25849,6 +25924,279 @@ struct PassiveRT extends SKILL
     endmethod
 endstruct
 
+
+
+
+
+function SetFly takes unit u, real height, real duration, real angle, real speed returns nothing
+
+    local integer id = GetHandleId(u)
+    local real velocityZ
+
+    // Tránh lỗi
+    if duration <= 0.0 then
+        return
+    endif
+
+    if height < 0.0 then
+        set height = 0.0
+    endif
+
+    // Vận tốc Z ban đầu
+    //
+    // v0 = 4H / T
+    //
+    set velocityZ = 4.0 * height / duration
+
+    call SaveReal(ht, id, fly_height, height)
+    call SaveReal(ht, id, fly_duration, duration)
+
+    call SaveReal(ht, id, fly_gravity, velocityZ)
+    call SaveReal(ht, id, fly_angle, angle)
+    call SaveReal(ht, id, fly_speed, speed)
+
+    call SaveReal(ht, id, fly_time, 0.0)
+
+endfunction
+
+// ============================================================
+// GET FLY GRAVITY
+// ============================================================
+
+function GetFlyGravity takes unit u returns real
+
+    return LoadReal(ht, GetHandleId(u), fly_gravity)
+
+endfunction
+
+
+
+// ============================================================
+// GET FLY SPEED
+// ============================================================
+
+function GetFlySpeed takes unit u returns real
+
+    return LoadReal(ht, GetHandleId(u), fly_speed)
+
+endfunction
+
+
+// ============================================================
+// FLY X
+// ============================================================
+struct FlyX
+
+    private real dfh
+    private real col
+    private unit caster
+
+    private integer time = 0
+
+
+    // ========================================================
+    // UPDATE
+    // ========================================================
+
+    private static method update takes nothing returns nothing
+
+        local thistype this = runtime.get()
+
+        local integer id = GetHandleId(this.caster)
+
+        local real height
+        local real velocityZ
+
+        local real maxHeight
+        local real duration
+        local real elapsed
+
+        local real angle
+        local real speed
+
+        local real gravityNow
+
+        local real x
+        local real y
+
+        if not IsUnitAliveBJ(this.caster) then
+            call runtime.end()
+        endif
+
+        // ----------------------------------------------------
+        // Load data
+        // ----------------------------------------------------
+
+        set height = GetUnitFlyHeight(this.caster)
+
+        set velocityZ = LoadReal(ht, id, fly_gravity)
+
+        set maxHeight = LoadReal(ht, id, fly_height)
+        set duration = LoadReal(ht, id, fly_duration)
+
+        set elapsed = LoadReal(ht, id, fly_time)
+
+        set angle = LoadReal(ht, id, fly_angle)
+        set speed = LoadReal(ht, id, fly_speed)
+
+
+        // ----------------------------------------------------
+        // Calculate gravity dynamically
+        // ----------------------------------------------------
+        //
+        // gravity = 8H / T²
+        //
+        // Không còn gravity global.
+        // ----------------------------------------------------
+
+        set gravityNow = 8.0 * maxHeight / (duration * duration)
+
+
+        // ====================================================
+        // XY MOVEMENT
+        // ====================================================
+
+        if speed != 0.0  then
+
+            set x = GetUnitX(this.caster)
+            set y = GetUnitY(this.caster)
+            if not IsTerrainPathable(x, y, PATHING_TYPE_WALKABILITY) then 
+                set x = x + Cos(angle * bj_DEGTORAD) * speed * P32
+                set y = y + Sin(angle * bj_DEGTORAD) * speed * P32
+                call SetUnitX(this.caster, x)
+                call SetUnitY(this.caster, y)
+            endif
+        endif
+
+
+        // ====================================================
+        // Z MOVEMENT
+        // ====================================================
+
+        set height = height + velocityZ * P32
+
+        // Apply gravity
+        set velocityZ = velocityZ - gravityNow * P32
+
+        call SaveReal(ht, id, fly_gravity, velocityZ)
+
+
+        // ====================================================
+        // Update elapsed time
+        // ====================================================
+
+        set elapsed = elapsed + P32
+
+        call SaveReal(ht, id, fly_time, elapsed)
+
+
+        // ====================================================
+        // End of flight
+        // ====================================================
+
+        if elapsed >= duration and height > this.dfh then
+
+            set height = this.dfh
+
+            call SaveReal(ht, id, fly_gravity, 0.0)
+
+            call SaveReal(ht, id, fly_time, duration)
+            call SaveReal(ht, id, fly_speed, 0)
+            call SetUnitFlyHeight(this.caster, this.dfh, 0)
+
+        else
+            if height < this.dfh then
+                set height = this.dfh
+  
+            endif
+           
+            call SetUnitFlyHeight(this.caster, height, 0)
+           
+        endif
+
+
+        // ====================================================
+        // PATHING
+        // ====================================================
+
+        if height > 350.0 then
+
+            call SetUnitPathing(this.caster, false)
+
+        else
+
+            call SetUnitPathing(this.caster, true)
+
+        endif
+
+
+        // ====================================================
+        // Loop counter
+        // ====================================================
+
+        set this.time = this.time + 1
+
+        if this.time == 1000 then
+            set this.time = 0
+        endif
+
+    endmethod
+
+
+    // ========================================================
+    // SETUP
+    // ========================================================
+
+     static method setup takes unit u returns nothing
+
+        local thistype this = thistype.create()
+
+        local integer id = GetHandleId(u)
+
+
+        set this.dfh = GetUnitDefaultFlyHeight(u)
+
+        set this.col = BlzGetUnitCollisionSize(u)
+
+        set this.caster = u
+
+
+        // ----------------------------------------------------
+        // Enable flying
+        // ----------------------------------------------------
+
+        if UnitAddAbility(u, 'Arav') and UnitRemoveAbility(u, 'Arav') then
+        endif
+
+
+        // ----------------------------------------------------
+        // Default values
+        // ----------------------------------------------------
+
+        call SaveReal(ht, id, fly_gravity, 0.0)
+
+        call SaveReal(ht, id, fly_angle, 0.0)
+
+        call SaveReal(ht, id, fly_speed, 0.0)
+
+        call SaveReal(ht, id, fly_height, 0.0)
+
+        call SaveReal(ht, id, fly_duration, 0.0)
+
+        call SaveReal(ht, id, fly_time, 0.0)
+
+
+        // ----------------------------------------------------
+        // Start timer
+        // ----------------------------------------------------
+
+        call runtime.new(this, P32, true, function thistype.update)
+
+    endmethod
+
+endstruct
+
+
 struct Group 
     static method pick takes group g returns unit 
         return FirstOfGroup(g) 
@@ -26857,6 +27205,453 @@ endstruct
     
     
 
+    
+struct EULI 
+    static unit caster
+    static integer pid
+    static item Item
+    static integer id
+    static integer hid
+    
+    static method f_Checking takes nothing returns boolean 
+        set .caster = GetTriggerUnit() 
+        set .pid = Num.uid(.caster)
+        set .Item = GetManipulatedItem()
+        set .id = GetItemTypeId(Item)
+        set .hid = GetHandleId(.Item)
+
+
+        if EULI.id == 'brac' then 
+            call Bonus.save_stat(EULI.caster, Bonus.ResistSpell, Bonus.stat_int(EULI.caster, Bonus.ResistSpell, - 25))
+        endif
+        if EULI.id == 'I01S' then 
+            call Bonus.save_stat(EULI.caster, Bonus.ResistSpell, Bonus.stat_int(EULI.caster, Bonus.ResistSpell, - 35))
+        endif
+
+        if .id == 'I03B' then 
+            if .pid < 5 then 
+                call PLAYER.systemchatall("Light Team Get Bounty Gold [150] !!")
+                set bj_int = 0
+                loop
+                    exitwhen bj_int > 4
+                    call PLAYER.addgold(bj_int, 150)
+                    set bj_int = bj_int + 1
+                endloop
+            else
+                call PLAYER.systemchatall("Dark Team Get Bounty Gold [150] !!")
+                set bj_int = 6
+                loop
+                    exitwhen bj_int > 10
+                    call PLAYER.addgold(bj_int, 150)
+                    set bj_int = bj_int + 1
+                endloop
+            endif
+
+        endif
+        if .id == 'I03C' then 
+            if .pid < 5 then 
+                call PLAYER.systemchatall("Light Team Get Bounty Wood [3] !!")
+                set bj_int = 0
+                loop
+                    exitwhen bj_int > 4
+                    call PLAYER.addlumber(bj_int, 3)
+                    set bj_int = bj_int + 1
+                endloop
+            else
+                call PLAYER.systemchatall("Dark Team Get Bounty Wood [3] !!")
+                set bj_int = 6
+                loop
+                    exitwhen bj_int > 10
+                    call PLAYER.addlumber(bj_int, 3)
+                    set bj_int = bj_int + 1
+                endloop
+            endif
+        endif
+    
+        return false 
+    endmethod 
+    static method setup takes nothing returns nothing 
+        local trigger t = CreateTrigger() 
+        call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_DROP_ITEM) 
+        call TriggerAddAction(t, function thistype.f_Checking) 
+        set t = null
+
+    endmethod 
+endstruct 
+
+ 
+
+//
+struct EAI 
+    static method f_Checking takes nothing returns boolean 
+        local item acquire_item = GetManipulatedItem() 
+        local integer ItemID = GetItemTypeId(acquire_item) 
+        local unit u = GetTriggerUnit() 
+        local integer pid = GetPlayerId(GetOwningPlayer(u)) 
+        local integer charge = GetItemCharges(acquire_item) 
+        local boolean b = false
+        local integer count = 0
+        local integer n = 0
+        local item ItemSlot 
+        // if (not ItemPickupLock.isAllowed(u, acquire_item)) then
+        //     call ItemPickupLock.forceDrop(u, acquire_item)
+        //     call PLAYER.systemchat(Player(pid), "The item does not belong to you")
+        //     // (Optional) báo tin:
+        //     // call DisplayTextToPlayer(GetOwningPlayer(u), 0, 0, "|cffff5555Vật phẩm không thuộc quyền sở hữu của cậu.|r")
+        // endif
+        if ItemID == 'brac' then 
+            call Bonus.save_stat(u, Bonus.ResistSpell, Bonus.stat_int(u, Bonus.ResistSpell, 25))
+            call PLAYER.systemchat(Player(pid), "Spell Resistance: " + I2S(Bonus.stat_int(u, Bonus.ResistSpell, 0)) + "%%")
+        endif
+        if ItemID == 'I01S' then 
+            call Bonus.save_stat(u, Bonus.ResistSpell, Bonus.stat_int(u, Bonus.ResistSpell, 35))
+            call PLAYER.systemchat(Player(pid), "Spell Resistance: " + I2S(Bonus.stat_int(u, Bonus.ResistSpell, 0)) + "%%")
+        endif
+        // Charge Item
+        if GetItemType(acquire_item) == ITEM_TYPE_CHARGED then
+     
+        endif
+     
+
+        set ItemSlot = null
+        set acquire_item = null 
+        set u = null 
+        return false 
+    endmethod 
+    static method setup takes nothing returns nothing 
+        local trigger t = CreateTrigger() 
+        call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_PICKUP_ITEM) 
+        call TriggerAddAction(t, function thistype.f_Checking) 
+        set t = null
+
+    endmethod 
+
+endstruct
+
+
+
+struct EventSpell
+    static method check takes nothing returns boolean 
+        local unit caster = GetTriggerUnit() 
+        local unit target = GetSpellTargetUnit() 
+        local ability abi = GetSpellAbility()
+        local integer sid = GetSpellAbilityId() 
+        local item it = GetSpellTargetItem() 
+        local integer cid = Num.uid(caster)
+        local integer c_utid = Num.utid(caster)
+        local integer chid = GetHandleId(caster)
+        local integer lv = GetUnitAbilityLevel(caster, sid) 
+        local real targetX = GetSpellTargetX() //Point X of skill                    
+        local real targetY = GetSpellTargetY() //Point T of skill                    
+        local real xc = Unit.x(caster) 
+        local real yc = Unit.y(caster) 
+        local integer thid = GetHandleId(target)
+        local integer t_utid = Num.utid(target)
+        local real xt = Unit.x(target) //Position X of target unit                   
+        local real yt = Unit.y(target) //Position T of target unit  
+        local integer tid = Num.uid(target)
+
+        if c_utid == DummyX.dummy_id then 
+            return true
+        endif
+        //
+
+
+        call Sentry.run_spell( caster , sid, targetX, targetY, lv)
+      
+        return false 
+    endmethod 
+    static method setup takes nothing returns nothing 
+        local trigger t = CreateTrigger() 
+        call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_SPELL_EFFECT) 
+        call TriggerAddAction(t, function thistype.check) 
+        set t = null
+
+    endmethod 
+endstruct 
+
+
+
+
+struct Sentry 
+    static method onHit takes nothing returns nothing 
+        local DelayDamage dd
+        if LoadBoolean(ht, GetHandleId(DMGSTAT.caster), moonrage.onHit_mr) then 
+            set dd = DelayDamage.create()
+            set dd.caster = DMGSTAT.caster
+            set dd.target = DMGSTAT.victim
+            set dd.DMG_TYPE = DAMAGE_TYPE_NORMAL
+            set dd.ATK_TYPE = ATTACK_TYPE_NORMAL
+            set dd.dmg = (15 * Unit.abilv(DMGSTAT.caster, 'A0CQ')) + (Hero.intr(DMGSTAT.caster) * 0.3)
+            set dd.time = 2
+            set dd.attach_name = "chest"
+            set dd.attach_path = "Abilities\\Weapons\\WingedSerpentMissile\\WingedSerpentMissile.mdl"
+            call dd.spell_now()
+        endif
+    endmethod
+    static method run_spell takes unit caster , integer sid, real targetX, real targetY, integer lv returns boolean 
+
+        //[Q] - Moonwave
+        if sid == 'A0CI' then 
+            call moonwave.mw_now(caster, Math.ab(Unit.x(caster), Unit.y(caster), targetX, targetY), 80 * lv, lv)
+        endif
+        //[W] - Moonstep
+        if sid == 'A0CM' then 
+            call DummyX.antimagicshell(DummyX.load[Num.uid(caster)], caster, 5, 80 * lv, DummyX.lunar_shield)
+            call SetFly(caster, 50, 0.5, Math.ab(Unit.x(caster), Unit.y(caster), targetX, targetY), 800)
+            call moonstep.ms_now(caster, (50 * lv) + (2 * Hero.intr(caster)))
+        endif
+        //[E] - Moonrage
+        if sid == 'A0CQ' then 
+            call moonrage.mr_now(caster)
+        endif
+        //[R] - Moonfall
+        if sid == 'A0CR' then 
+            call moonfall.mf_now(caster, 30)
+        endif
+        
+        return false
+    endmethod
+endstruct
+struct Stun 
+    static method remove_stun takes unit u , integer a returns nothing 
+        if Unit.haveabi(u, a) then 
+            call Unit.removeabi(u, a) 
+        endif
+    endmethod
+    static method dispel_stun takes unit u returns nothing 
+        call Stun.remove_stun(u, 'BSTN')
+        call Stun.remove_stun(u, 'BPSE')
+    endmethod
+endstruct
+
+struct moonwave extends SKILL 
+    string attach = ""
+    integer lv
+    private static method spell_update takes nothing returns nothing 
+        local thistype this = runtime.get() 
+        local group g = null 
+        local unit e = null 
+        if Boo.isdead( .caster) then 
+            call Group.release(.g)
+            call Eff.remove( .missile) 
+            call Eff.remove( .missile2) 
+            call runtime.end() // End the timer                                                                                                                                                                                                       
+            call.destroy() // Destroy the instance 
+        endif
+        set.x = Math.ppx( .x, .speed, .a) 
+        set.y = Math.ppy( .y, .speed, .a) 
+        call Eff.angle( .missile, .a) 
+        call Eff.pos( .missile, .x, .y, Math.pz( .x, .y) + 80) 
+        call Eff.angle( .missile2, .a) 
+        call Eff.pos( .missile2, .x, .y, Math.pz( .x, .y) + 10) 
+        set g = CreateGroup() 
+        call Group.enum(g, .x, .y, .aoe) 
+        loop 
+            set e = FirstOfGroup(g) 
+            exitwhen(e == null)
+            if not IsUnitInGroup(e, .g) and.FilterUnit( .caster, e) then 
+                call Group.add(e, .g)
+                call Eff.attach("Abilities\\Weapons\\SpiritOfVengeanceMissile\\SpiritOfVengeanceMissile.mdl", e, "chest")
+                call UnitDamageTargetBJ(.caster, e, .dmg, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_NORMAL) 
+                call DummyX.faeriefire2(DummyX.load[Num.uid(.caster)], e, .lv * 2, 5.0, DummyX.lunar_mark)
+            endif 
+            call Group.remove(e, g) 
+        endloop 
+        call Group.release(g) 
+        set e = null 
+
+        set.time = .time - 1 
+        if.time <= 0  then 
+            call Group.release(.g)
+            call Eff.remove( .missile) 
+            call Eff.remove( .missile2) 
+            call runtime.end() // End the timer                                                                                                                                                                                                       
+            call.destroy() // Destroy the instance                                                                   
+        endif 
+    endmethod 
+    static method mw_now takes unit caster , real a , real dmg , integer lv returns nothing
+        local thistype this = thistype.create()
+        set .caster = caster 
+        set .x = Unit.x(.caster)
+        set .y = Unit.y(.caster)
+        set .a = a
+        set .aoe = 150
+        set .time = 40
+        set .speed = 800 / 40
+        set .lv = lv 
+        set .dmg = dmg
+
+        set.g = CreateGroup()
+        set.missile = Eff.new( "Units\\NightElf\\Owl\\Owl.mdl", .x, .y, Math.pz( .x, .y) + 80) 
+        set.missile2 = Eff.new( "war3mapImported\\Moon Fire Slash.mdx", .x, .y, Math.pz( .x, .y) + 10) 
+        call Eff.size( .missile2, 0.6) 
+        call Eff.size( .missile, 2) 
+        call Eff.angle( .missile, .a) 
+        call Eff.angle( .missile2, .a) 
+        call runtime.new(this, P32, true, function thistype.spell_update) 
+    endmethod 
+endstruct
+
+struct moonstep extends SKILL 
+
+    private static method spell_update takes nothing returns nothing 
+        local thistype this = runtime.get() 
+        local group g = null 
+        local unit e = null
+        if Boo.isdead( .caster) or.is_touch then 
+            call Eff.remove(.missile)
+            call Group.release(.g)
+            call runtime.end() // End the timer                                                                                                                                                                                                       
+            call.destroy() // Destroy the instance 
+        endif
+        set .x = Unit.x(.caster)
+        set .y = Unit.y(.caster)
+    
+        set g = CreateGroup() 
+        call Group.enum(g, .x, .y, 120) 
+        loop 
+            set e = FirstOfGroup(g) 
+            exitwhen(e == null)
+            if .FilterUnit( .caster, e) and not Boo.isstructure(e) and not .is_touch then 
+                call UnitDamageTargetBJ(.caster, e, .dmg, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_NORMAL)
+                call Eff.attach("Objects\\Spawnmodels\\Human\\HumanBlood\\BloodElfSpellThiefBlood.mdl", e, "chest") 
+                call DummyX.slow(DummyX.load[Num.uid(.caster)], e, 3.0, 0.5, 0.5)
+                call SetFly(.caster, 10, 0.1, 0, 10)
+                set .is_touch = true
+            endif 
+            call Group.remove(e, g) 
+        endloop 
+        call Group.release(g) 
+        
+        set.time = .time - 1 
+        if.time <= 0  then 
+            call Eff.remove(.missile)
+            call Group.release(.g)
+            call runtime.end() // End the timer                                                                                                                                                                                                       
+            call.destroy() // Destroy the instance                                                                   
+        endif 
+    endmethod 
+    static method ms_now takes unit caster , real dmg returns boolean 
+        local thistype this = thistype.create()
+        set .caster = caster
+        set .dmg = dmg
+        set .time = 16  
+        set .missile = AddSpecialEffectTarget("Abilities\\Weapons\\ZigguratMissile\\ZigguratMissile.mdl", .caster, "chest")
+        call runtime.new(this, P32, true, function thistype.spell_update) 
+        return false 
+    endmethod 
+ 
+endstruct
+
+struct moonrage extends SKILL 
+    static key onHit_mr
+    private static method spell_update takes nothing returns nothing 
+        local thistype this = runtime.get() 
+        if Boo.isdead( .caster) then 
+            call SaveBoolean(ht, GetHandleId(.caster), moonrage.onHit_mr, false)
+            call Unit.removeabi(.caster, 'A0CO')
+            call Eff.remove(.missile)
+            call runtime.end() // End the timer                                                                                                                                                                                                       
+            call.destroy() // Destroy the instance 
+        endif
+        call Stun.dispel_stun(.caster)
+        set.time = .time - 1 
+        if.time <= 0  then 
+            call SaveBoolean(ht, GetHandleId(.caster), moonrage.onHit_mr, false)
+            call Unit.removeabi(.caster, 'A0CO')
+            call Eff.remove(.missile)
+            call runtime.end() // End the timer                                                                                                                                                                                                       
+            call.destroy() // Destroy the instance                                                                   
+        endif 
+    endmethod 
+    static method mr_now takes unit caster returns boolean 
+        local thistype this = thistype.create()
+        set .caster = caster
+        set .missile = AddSpecialEffectTarget("Abilities\\Weapons\\ZigguratMissile\\ZigguratMissile.mdl", .caster, "hand right")
+        call SaveBoolean(ht, GetHandleId(.caster), moonrage.onHit_mr, true)
+        call Unit.addabi(.caster, 'A0CO')
+        set .time = 32 * 5  
+        call runtime.new(this, P32, true, function thistype.spell_update) 
+        return false 
+    endmethod
+endstruct
+
+struct moonfall extends SKILL 
+    static method AoEDmg takes unit caster, real x, real y , real aoe , real dmg, string nova_path, real nova_size, string attach_path , attacktype atk_type, damagetype dmg_type returns nothing 
+        local group g = null 
+        local unit e = null 
+        // set bj_lastCreatedTerrainDeformation = TerrainDeformCrater( x, y, 250, 128, R2I(0.5 * 2000) , false)
+        // call TerrainDeformStop(bj_lastCreatedTerrainDeformation, R2I(0.35 * 2000))
+        if nova_path != "" then 
+            set bj_lastCreatedEffect = Eff.new(nova_path, x, y, Math.pz(x, y) + 5)
+            call Eff.size(bj_lastCreatedEffect, nova_size)
+            call DestroyEffect(bj_lastCreatedEffect)
+        endif
+        set g = CreateGroup() 
+        call Group.enum(g, x, y, aoe) 
+        loop 
+            set e = FirstOfGroup(g) 
+            exitwhen(e == null )
+            if.FilterUnit( caster, e) then 
+                if attach_path != "" then 
+                    call Eff.attach( attach_path, e, "chest")
+                endif
+                call UnitDamageTarget(caster, e, dmg, true, true, atk_type, dmg_type, null) 
+                call DummyX.slow(DummyX.load[Num.uid(caster)], e, 3.0, 0.5, 0.5)
+            endif 
+            call Group.remove(e, g) 
+        endloop 
+        call Group.release(g) 
+        set e = null 
+    endmethod
+    private static method spell_update takes nothing returns nothing 
+        local thistype this = runtime.get() 
+        if Boo.isdead( .caster) then 
+            call Eff.remove(.missile)
+            call runtime.end() // End the timer                                                                                                                                                                                                       
+            call.destroy() // Destroy the instance 
+        endif
+        if .time > 32 * 4 then 
+            call BlzSetSpecialEffectZ(.missile2, .Lerp(Math.pz(.x, .y) + 500, Math.pz(.x, .y) + 10, ((32 * 5) - I2R(.time)) / 32   )) 
+        elseif .time == 32 * 4 then 
+            call Eff.remove(.missile2)
+        endif
+        if .time <= 32 * 4 and ModuloInteger(.time, 32) == 0  then 
+            set bj_real = GetRandomReal(- 200, 200)
+            call .AoEDmg(.caster, Math.ppx(.x, bj_real, GetRandomReal(1, 360)), Math.ppy(.y, bj_real, GetRandomReal(1, 360)), 300, .dmg, "Units\\NightElf\\Wisp\\WispExplode.mdl", 1.5, "Abilities\\Weapons\\SpiritOfVengeanceMissile\\SpiritOfVengeanceMissile.mdl", ATTACK_TYPE_NORMAL, DAMAGE_TYPE_NORMAL)
+        endif
+        if .time <= 32 * 4 and ModuloInteger(.time, 24) == 0  then 
+            set bj_real = GetRandomReal(- 200, 200)
+            call .AoEDmg(.caster, Math.ppx(.x, bj_real, GetRandomReal(1, 360)), Math.ppy(.y, bj_real, GetRandomReal(1, 360)), 300, .dmg, "Units\\NightElf\\Wisp\\WispExplode.mdl", 1.5, "Abilities\\Weapons\\SpiritOfVengeanceMissile\\SpiritOfVengeanceMissile.mdl", ATTACK_TYPE_NORMAL, DAMAGE_TYPE_NORMAL)
+        endif
+        if .time <= 32 * 4 and ModuloInteger(.time, 12) == 0  then 
+            set bj_real = GetRandomReal(- 200, 200)
+            call .AoEDmg(.caster, Math.ppx(.x, bj_real, GetRandomReal(1, 360)), Math.ppy(.y, bj_real, GetRandomReal(1, 360)), 300, .dmg, "Units\\NightElf\\Wisp\\WispExplode.mdl", 1.5, "Abilities\\Weapons\\SpiritOfVengeanceMissile\\SpiritOfVengeanceMissile.mdl", ATTACK_TYPE_NORMAL, DAMAGE_TYPE_NORMAL)
+        endif
+        set.time = .time - 1 
+        if.time <= 0  then 
+            call Eff.remove(.missile)
+            call runtime.end() // End the timer                                                                                                                                                                                                       
+            call.destroy() // Destroy the instance                                                                   
+        endif 
+    endmethod 
+    static method mf_now takes unit caster , real dmg returns boolean 
+        local thistype this = thistype.create()
+        set .caster = caster
+        set .dmg = dmg
+        set .time = 32 * 5  
+        set .x = Unit.x(.caster)
+        set .y = Unit.y(.caster)
+        set .missile = Eff.new("Abilities\\Spells\\NightElf\\Starfall\\StarfallCaster.mdl", .x, .y, Math.pz(.x, .y) + 20)
+        set .missile2 = Eff.new("war3mapImported\\Moon Fire Slash.mdx", .x, .y, Math.pz(.x, .y) + 500)
+        call runtime.new(this, P32, true, function thistype.spell_update) 
+        return false 
+    endmethod 
+ 
+endstruct
+
+
 
 //Use :                               
 // Order :                           
@@ -26868,13 +27663,16 @@ endstruct
 struct DummyX 
     static integer dummy_id = 'h01T' //Set your id dummy                                     
     static integer dummy_idtest = 'edry' //Set your id dummy    
-
+    static integer lunar_mark = 'A0CJ'
+    static integer lunar_shield = 'A0CL'
+    static integer slow_id = 'A0CN'   
+        
     static integer frost_id = 'A002'     
     static integer banish_id = 'A0DR'
 
 
     
-    static integer slow_id = 'A022'     
+  
     static integer purge_id = 'A02B'
     static integer stun_id = 'A02H'     
     static integer frostnova_id = 'A02V'     
@@ -26934,7 +27732,7 @@ struct DummyX
     static integer raise_dead_id = 'A00B'                         
     static unit array load 
     static method new takes nothing returns nothing 
-        // call Preload_Ability(DummyX.purge_id) // Preload skill   
+        call Preload_Ability(DummyX.lunar_mark) // Preload skill   
         // call Preload_Ability(DummyX.stun_id) // Preload skill    
         // call Preload_Ability(DummyX.frost_id) // Preload skill    
 
@@ -27718,7 +28516,7 @@ struct DummyX
     static method slow takes unit dummy, unit u, real duration, real de_spd, real de_atk_spd returns nothing 
         local ability abi = null
         local real resist = 1.00
-        set resist = RMaxBJ(0, resist - ((I2R(LoadInteger(stats, GetHandleId(u), Bonus.SlowRes)) / 100) + (Hero.strr(DMGSTAT.caster) * 0.0005)))
+        set resist = RMaxBJ(0, resist - ((I2R(LoadInteger(stats, GetHandleId(u), Bonus.SlowRes)) / 100) ))
         // if Unit.haveabi(u, 'A08X') then 
         //     set resist = resist * 0.08
         // endif
@@ -27911,7 +28709,7 @@ struct Interval
             call DummyX.setup_dummy()
          
         endif
-        if ModuloInteger(.times, 15) == 0 then 
+        if ModuloInteger(.times, 180) == 0 then 
             call CreateItem('I03B', GetRectCenterX(gg_rct_LightBounty), GetRectCenterY(gg_rct_LightBounty))
             call CreateItem('I03B', GetRectCenterX(gg_rct_DarkBounty), GetRectCenterY(gg_rct_DarkBounty))
             call CreateItem('I03C', GetRectCenterX(gg_rct_DarkBounty2), GetRectCenterY(gg_rct_DarkBounty2))
@@ -28004,6 +28802,9 @@ struct GAME
         call BlzFrameSetAbsPoint(tooltip, FRAMEPOINT_BOTTOMRIGHT, 0.8, 0.24)
         call Interval.start()
         call EV_Select.setup()
+        call EULI.setup()
+        call EAI.setup()
+        call EventSpell.setup()
         call DummyX.new()
 
     endmethod

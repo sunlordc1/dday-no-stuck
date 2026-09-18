@@ -18,7 +18,7 @@ struct Proc
     endmethod 
      
     static method onHit takes nothing returns nothing 
-  
+        call Sentry.onHit()
   
     endmethod 
     static method onCritical takes nothing returns nothing 

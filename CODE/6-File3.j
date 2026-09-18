@@ -3135,7 +3135,7 @@ function ap takes nothing returns nothing
     endif
 endfunction
 function np takes nothing returns boolean
-    return(IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO))and(GetItemTypeId(GetManipulatedItem()) == 'I01S')
+    return(IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO))and(GetItemTypeId(GetManipulatedItem()) == 'I01S' or GetItemTypeId(GetManipulatedItem()) == 'brac' )
 endfunction
 function Vp takes nothing returns boolean
     return(GetItemTypeId(UnitItemInSlotBJ(GetManipulatingUnit(), bj_forLoopAIndex)) == 'I01S')
@@ -3149,7 +3149,7 @@ function Xp takes nothing returns nothing
     set bj_forLoopAIndexEnd = 6
     loop
         exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
-        if(Vp())then
+        if(Vp()) or GetItemTypeId(UnitItemInSlotBJ(GetManipulatingUnit(), bj_forLoopAIndex)) == 'brac'then
             set Ix = (Ix + 1)
         endif
         set bj_forLoopAIndex = bj_forLoopAIndex + 1
@@ -5252,7 +5252,7 @@ endfunction
 function rt takes nothing returns boolean
     return(GetUnitTypeId(GetSummonedUnit()) == 'e00A')and(Er == 4)
 endfunction
-function it takes nothing returns nothing
+function ittt takes nothing returns nothing
     call VG(GetSummonedUnit())
     call SetUnitInvulnerable(GetSummoningUnit(), true)
     call IssueImmediateOrderById(GetSummoningUnit(), 851972)
@@ -6900,6 +6900,9 @@ function IW takes nothing returns nothing
     set Zv = 1
     call DestroyTimerDialog(ve[Zv])
     call ReviveHeroLoc(Oe[Zv], GetRectCenter(cC), true)
+    if GetUnitTypeId(Oe[Zv]) == 'H011' then 
+        call FlyX.setup(Oe[Zv])
+    endif
     call PanCameraToTimedLocForPlayer(Player(- 1 + (Zv)), GetRectCenter(cC), 1.)
     call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ((Ne[Zv] + (GetPlayerName(Player(- 1 + (Zv))) + "|r")) + "'s hero has revived."))
     call SetUnitManaPercentBJ(Oe[Zv], 100)
@@ -6908,6 +6911,9 @@ function AW takes nothing returns nothing
     set Zv = 2
     call DestroyTimerDialog(ve[Zv])
     call ReviveHeroLoc(Oe[Zv], GetRectCenter(cC), true)
+    if GetUnitTypeId(Oe[Zv]) == 'H011' then 
+        call FlyX.setup(Oe[Zv])
+    endif
     call PanCameraToTimedLocForPlayer(Player(- 1 + (Zv)), GetRectCenter(cC), 1.)
     call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ((Ne[Zv] + (GetPlayerName(Player(- 1 + (Zv))) + "|r")) + "'s hero has revived."))
     call SetUnitManaPercentBJ(Oe[Zv], 100)
@@ -6916,6 +6922,9 @@ function NW takes nothing returns nothing
     set Zv = 3
     call DestroyTimerDialog(ve[Zv])
     call ReviveHeroLoc(Oe[Zv], GetRectCenter(cC), true)
+    if GetUnitTypeId(Oe[Zv]) == 'H011' then 
+        call FlyX.setup(Oe[Zv])
+    endif
     call PanCameraToTimedLocForPlayer(Player(- 1 + (Zv)), GetRectCenter(cC), 1.)
     call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ((Ne[Zv] + (GetPlayerName(Player(- 1 + (Zv))) + "|r")) + "'s hero has revived."))
     call SetUnitManaPercentBJ(Oe[Zv], 100)
@@ -6924,6 +6933,9 @@ function bW takes nothing returns nothing
     set Zv = 4
     call DestroyTimerDialog(ve[Zv])
     call ReviveHeroLoc(Oe[Zv], GetRectCenter(cC), true)
+    if GetUnitTypeId(Oe[Zv]) == 'H011' then 
+        call FlyX.setup(Oe[Zv])
+    endif
     call PanCameraToTimedLocForPlayer(Player(- 1 + (Zv)), GetRectCenter(cC), 1.)
     call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ((Ne[Zv] + (GetPlayerName(Player(- 1 + (Zv))) + "|r")) + "'s hero has revived."))
     call SetUnitManaPercentBJ(Oe[Zv], 100)
@@ -6932,6 +6944,9 @@ function BW takes nothing returns nothing
     set Zv = 5
     call DestroyTimerDialog(ve[Zv])
     call ReviveHeroLoc(Oe[Zv], GetRectCenter(cC), true)
+    if GetUnitTypeId(Oe[Zv]) == 'H011' then 
+        call FlyX.setup(Oe[Zv])
+    endif
     call PanCameraToTimedLocForPlayer(Player(- 1 + (Zv)), GetRectCenter(cC), 1.)
     call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ((Ne[Zv] + (GetPlayerName(Player(- 1 + (Zv))) + "|r")) + "'s hero has revived."))
     call SetUnitManaPercentBJ(Oe[Zv], 100)
@@ -6940,6 +6955,9 @@ function cW takes nothing returns nothing
     set Zv = 7
     call DestroyTimerDialog(ve[Zv])
     call ReviveHeroLoc(Oe[Zv], GetRectCenter(CC), true)
+    if GetUnitTypeId(Oe[Zv]) == 'H011' then 
+        call FlyX.setup(Oe[Zv])
+    endif
     call PanCameraToTimedLocForPlayer(Player(- 1 + (Zv)), GetRectCenter(CC), 1.)
     call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ((Ne[Zv] + (GetPlayerName(Player(- 1 + (Zv))) + "|r")) + "'s hero has revived."))
     call SetUnitManaPercentBJ(Oe[Zv], 100)
@@ -6948,6 +6966,9 @@ function CW takes nothing returns nothing
     set Zv = 8
     call DestroyTimerDialog(ve[Zv])
     call ReviveHeroLoc(Oe[Zv], GetRectCenter(CC), true)
+    if GetUnitTypeId(Oe[Zv]) == 'H011' then 
+        call FlyX.setup(Oe[Zv])
+    endif
     call PanCameraToTimedLocForPlayer(Player(- 1 + (Zv)), GetRectCenter(CC), 1.)
     call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ((Ne[Zv] + (GetPlayerName(Player(- 1 + (Zv))) + "|r")) + "'s hero has revived."))
     call SetUnitManaPercentBJ(Oe[Zv], 100)
@@ -6956,6 +6977,9 @@ function dW takes nothing returns nothing
     set Zv = 9
     call DestroyTimerDialog(ve[Zv])
     call ReviveHeroLoc(Oe[Zv], GetRectCenter(CC), true)
+    if GetUnitTypeId(Oe[Zv]) == 'H011' then 
+        call FlyX.setup(Oe[Zv])
+    endif
     call PanCameraToTimedLocForPlayer(Player(- 1 + (Zv)), GetRectCenter(CC), 1.)
     call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ((Ne[Zv] + (GetPlayerName(Player(- 1 + (Zv))) + "|r")) + "'s hero has revived."))
     call SetUnitManaPercentBJ(Oe[Zv], 100)
@@ -6964,6 +6988,9 @@ function DW takes nothing returns nothing
     set Zv = 10
     call DestroyTimerDialog(ve[Zv])
     call ReviveHeroLoc(Oe[Zv], GetRectCenter(CC), true)
+    if GetUnitTypeId(Oe[Zv]) == 'H011' then 
+        call FlyX.setup(Oe[Zv])
+    endif
     call PanCameraToTimedLocForPlayer(Player(- 1 + (Zv)), GetRectCenter(CC), 1.)
     call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ((Ne[Zv] + (GetPlayerName(Player(- 1 + (Zv))) + "|r")) + "'s hero has revived."))
     call SetUnitManaPercentBJ(Oe[Zv], 100)
@@ -6972,6 +6999,9 @@ function fW takes nothing returns nothing
     set Zv = 11
     call DestroyTimerDialog(ve[Zv])
     call ReviveHeroLoc(Oe[Zv], GetRectCenter(CC), true)
+    if GetUnitTypeId(Oe[Zv]) == 'H011' then 
+        call FlyX.setup(Oe[Zv])
+    endif
     call PanCameraToTimedLocForPlayer(Player(- 1 + (Zv)), GetRectCenter(CC), 1.)
     call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ((Ne[Zv] + (GetPlayerName(Player(- 1 + (Zv))) + "|r")) + "'s hero has revived."))
     call SetUnitManaPercentBJ(Oe[Zv], 100)
@@ -7610,6 +7640,7 @@ function rY takes nothing returns nothing
     set fe = (fe - 1)
     call ExplodeUnitBJ(GetTriggerUnit())
     call CreateNUnitsAtLoc(1, 'H011', GetOwningPlayer(GetEnteringUnit()), Jh(GetOwningPlayer(GetEnteringUnit())), bj_UNIT_FACING)
+    call FlyX.setup(bj_lastCreatedUnit)
     call SetDoodadAnimationRectBJ("death", 'D000', gC)
     call PanCameraToTimedLocForPlayer(GetOwningPlayer(GetEnteringUnit()), Jh(GetOwningPlayer(GetEnteringUnit())), 2.)
     call DisableTrigger(GetTriggeringTrigger())
@@ -11274,7 +11305,7 @@ function q3 takes nothing returns nothing
     call TriggerAddAction(nE, function ot)
     call TriggerRegisterAnyUnitEventBJ(VE, EVENT_PLAYER_UNIT_SUMMON)
     call TriggerAddCondition(VE, Condition(function rt))
-    call TriggerAddAction(VE, function it)
+    call TriggerAddAction(VE, function ittt)
     call TriggerRegisterAnyUnitEventBJ(EE, EVENT_PLAYER_UNIT_USE_ITEM)
     call TriggerAddCondition(EE, Condition(function at))
     call TriggerAddAction(EE, function nt)

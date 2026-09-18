@@ -285,7 +285,7 @@ struct missile_Touch_Nova extends SKILL
 endstruct
 
 
-struct missile_Pierce extends SKILL 
+struct missile_pierce extends SKILL 
     string attach = ""
     private static method spell_update takes nothing returns nothing 
         local thistype this = runtime.get() 

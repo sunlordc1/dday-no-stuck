@@ -9,13 +9,16 @@
 struct DummyX 
     static integer dummy_id = 'h01T' //Set your id dummy                                     
     static integer dummy_idtest = 'edry' //Set your id dummy    
-
+    static integer lunar_mark = 'A0CJ'
+    static integer lunar_shield = 'A0CL'
+    static integer slow_id = 'A0CN'   
+        
     static integer frost_id = 'A002'     
     static integer banish_id = 'A0DR'
 
 
     
-    static integer slow_id = 'A022'     
+  
     static integer purge_id = 'A02B'
     static integer stun_id = 'A02H'     
     static integer frostnova_id = 'A02V'     
@@ -75,7 +78,7 @@ struct DummyX
     static integer raise_dead_id = 'A00B'                         
     static unit array load 
     static method new takes nothing returns nothing 
-        // call Preload_Ability(DummyX.purge_id) // Preload skill   
+        call Preload_Ability(DummyX.lunar_mark) // Preload skill   
         // call Preload_Ability(DummyX.stun_id) // Preload skill    
         // call Preload_Ability(DummyX.frost_id) // Preload skill    
 
@@ -859,7 +862,7 @@ struct DummyX
     static method slow takes unit dummy, unit u, real duration, real de_spd, real de_atk_spd returns nothing 
         local ability abi = null
         local real resist = 1.00
-        set resist = RMaxBJ(0, resist - ((I2R(LoadInteger(stats, GetHandleId(u), Bonus.SlowRes)) / 100) + (Hero.strr(DMGSTAT.caster) * 0.0005)))
+        set resist = RMaxBJ(0, resist - ((I2R(LoadInteger(stats, GetHandleId(u), Bonus.SlowRes)) / 100) ))
         // if Unit.haveabi(u, 'A08X') then 
         //     set resist = resist * 0.08
         // endif
