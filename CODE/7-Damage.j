@@ -14,6 +14,8 @@ struct Bonus
     static key CritSpell 
     static key SlowRes 
     static key StunRes 
+    static key BlockRate
+    static key BlockDmg
     static key HealBonus 
 
     static key OpenWound
@@ -94,6 +96,9 @@ struct Bonus
         call .save_stat(u, .PhysDmg, 0)
         call .save_stat(u, .ChaosDmg, 0)
         
+
+        call .save_stat(u, .BlockRate, 0)
+        call .save_stat(u, .BlockDmg, 0)
         call .save_stat(u, .IgnoreArmor, 0)
         call .save_stat(u, .Thorn, 0)
         
@@ -133,6 +138,10 @@ struct Bonus
             call .save_stat(u, .StunRes, .stat_int(caster, .StunRes, 0))
         endif
     
+
+        call .save_stat(u, .OpenWound, .stat_int(caster, .BlockRate, 0))
+        call .save_stat(u, .OpenWound, .stat_int(caster, .BlockDmg, 0))
+
         call .save_stat(u, .OpenWound, .stat_int(caster, .OpenWound, 0))
         call .save_stat(u, .Weakness, .stat_int(caster, .Weakness, 0))
         call .save_stat(u, .Blizzard, .stat_int(caster, .Blizzard, 0))
@@ -211,6 +220,8 @@ struct DMGSTAT
     static real control_burst_dmg = 0.00
     static real thorn = 0.00
     static real bash = 0.00
+    static real block_rate = 0.00
+    static real block_dmg = 0.00
     
     static method f_Get_DMGSTAT takes nothing returns nothing 
         set.armor = BlzGetUnitArmor(DMGSTAT.victim) 
@@ -223,6 +234,9 @@ struct DMGSTAT
         set.life_steal = Bonus.stat_real_bonus_rate(DMGSTAT.caster, Bonus.LifeSteal, 0)
         
         set.crit_chance = Bonus.stat_real(DMGSTAT.caster, Bonus.Crit, Bonus.default_crit)
+        set.block_rate = Bonus.stat_real(DMGSTAT.victim, Bonus.BlockRate, 0)
+        set.block_dmg = Bonus.stat_real(DMGSTAT.victim, Bonus.BlockDmg, 0)
+
 
         set.open_wound = Bonus.stat_real(DMGSTAT.caster, Bonus.OpenWound, 0)
         set.weakness = Bonus.stat_real(DMGSTAT.caster, Bonus.Weakness, 0)
@@ -289,7 +303,9 @@ struct DMGSTAT
         set.thorn = 0.00
         
         set.spell_bonus = 0.00 
-      
+        set.block_rate = 0.00
+        set.block_dmg = 0.00
+
     endmethod 
 endstruct 
 struct DMGEVENT 
@@ -393,10 +409,8 @@ struct DMGEVENT
                         endif
                
                         if DMGSTAT.life_steal > 0 and DMGSTAT.DMG_TYPE == DAMAGE_TYPE_NORMAL and DMGSTAT.dmg > 0.0 then   
-                            if not Unit.haveabi(DMGSTAT.caster, 'B01K') then //Open wound
-                                // call GRAPHIC.run_graphic(DMGSTAT.caster, DMGSTAT.caster,  DMGSTAT.dmg * DMGSTAT.life_steal, "Heal") 
-
-                            endif                                 
+                            // call GRAPHIC.run_graphic(DMGSTAT.caster, DMGSTAT.caster,  DMGSTAT.dmg * DMGSTAT.life_steal, "Heal") 
+                            call TextDmg.run("Heal", DMGSTAT.dmg * DMGSTAT.life_steal, DMGSTAT.caster, DMGSTAT.caster)   
                         endif   
                         if Math.rate(DMGSTAT.crit_chance) then 
                             set DMGSTAT.dmg = DMGSTAT.dmg * (DMGSTAT.crit_dmg) 
@@ -425,9 +439,14 @@ struct DMGEVENT
                         endif 
                     endif 
 
-                
-
+                    // if Boo.ishero(DMGSTAT.caster) then 
+                    //     call BJDebugMsg("BlockR: " + R2S(DMGSTAT.block_rate) + " - " + "BlockDmg: "  + R2S(DMGSTAT.block_dmg))
+                    // endif
+                    if DMGSTAT.block_rate != 0.00 and Math.rate(DMGSTAT.block_rate) then
+                        set DMGSTAT.dmg = RMaxBJ(0, DMGSTAT.dmg - DMGSTAT.block_dmg) 
+                    endif
            
+
                  
              
                     if DMGSTAT.dmg <= 0 and color_dmg_type != "Miss" then 
@@ -510,6 +529,8 @@ struct DMGEVENT
         // endif
         call BlzSetEventDamage(DMGSTAT.dmg) 
         // call GRAPHIC.run_graphic(DMGSTAT.victim, DMGSTAT.caster, DMGSTAT.dmg, color_dmg_type) 
+        call TextDmg.run(color_dmg_type, DMGSTAT.dmg, DMGSTAT.victim, DMGSTAT.caster)     
+
     endmethod 
     private static method onInit takes nothing returns nothing 
         local trigger t = CreateTrigger() 
@@ -520,3 +541,4 @@ struct DMGEVENT
         call TriggerAddAction(.t, function thistype.Damaged) 
     endmethod 
 endstruct
+

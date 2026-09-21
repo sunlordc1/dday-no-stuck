@@ -1365,6 +1365,7 @@ globals
     integer bj_int = 0
     effect bj_eff = null
     real bj_real = 0.0
+    texttag bj_texttag
     location bj_loc = Location(0, 0)
     constant real MAX_RANGE = 10.
     constant string SYSTEM_CHAT = "[SYSTEM]: |cffffcc00" 

@@ -24,6 +24,41 @@ struct EAI
             call Bonus.save_stat(u, Bonus.ResistSpell, Bonus.stat_int(u, Bonus.ResistSpell, 35))
             call PLAYER.systemchat(Player(pid), "Spell Resistance: " + I2S(Bonus.stat_int(u, Bonus.ResistSpell, 0)) + "%%")
         endif
+        if ItemID == 'I002' then 
+            call Bonus.save_stat(u, Bonus.BlockRate, Bonus.stat_int(u, Bonus.BlockRate, 30))
+            call Bonus.save_stat(u, Bonus.BlockDmg, Bonus.stat_int(u, Bonus.BlockDmg, 40))
+            call PLAYER.systemchat(Player(pid), "Block Rate: " + I2S(Bonus.stat_int(u, Bonus.BlockRate, 0)) + "%% \n" + "Block Damage: " + I2S(Bonus.stat_int(u, Bonus.BlockDmg, 0)) + ".")
+
+        endif
+        if ItemID == 'I01R' then 
+            call Bonus.save_stat(u, Bonus.BlockRate, Bonus.stat_int(u, Bonus.BlockRate, 36))
+            call Bonus.save_stat(u, Bonus.BlockDmg, Bonus.stat_int(u, Bonus.BlockDmg, 48))
+            call PLAYER.systemchat(Player(pid), "Block Rate: " + I2S(Bonus.stat_int(u, Bonus.BlockRate, 0)) + "%% \n" + "Block Damage: " + I2S(Bonus.stat_int(u, Bonus.BlockDmg, 0)) + ".")
+        endif
+
+        //Talisman of evasion
+        if ItemID == 'evtl' then 
+            call Bonus.save_stat(u, Bonus.Evasion, Bonus.stat_int(u, Bonus.Evasion, 5))
+            call Bonus.save_stat(u, Bonus.PierceSpell, Bonus.stat_int(u, Bonus.PierceSpell, 10))
+            call PLAYER.systemchat(Player(pid), "Evasion: " + I2S(Bonus.stat_int(u, Bonus.Evasion, 0)) + "%% \n" + "Pierce Spell: " + I2S(Bonus.stat_int(u, Bonus.PierceSpell, 0)) + ".")
+        endif
+        //Zalmoxes Hammer
+        if ItemID == 'I00M' then 
+            call Bonus.save_stat(u, Bonus.AtkRating, Bonus.stat_int(u, Bonus.AtkRating, 5))
+            call PLAYER.systemchat(Player(pid), "Attack Rating: " + I2S(Bonus.stat_int(u, Bonus.AtkRating, 0)) + "%%.")
+        endif
+        //Orb Of The Darkmoon
+        if ItemID == 'I02P' then 
+            call Bonus.save_stat(u, Bonus.Evasion, Bonus.stat_int(u, Bonus.Evasion, 6))
+            call Bonus.save_stat(u, Bonus.PierceSpell, Bonus.stat_int(u, Bonus.PierceSpell, 12))
+            call PLAYER.systemchat(Player(pid), "Evasion: " + I2S(Bonus.stat_int(u, Bonus.Evasion, 0)) + "%% \n" + "Pierce Spell: " + I2S(Bonus.stat_int(u, Bonus.PierceSpell, 0)) + ".")
+        endif
+        //Vampiric Power
+        if ItemID == 'modt' then 
+            call Bonus.save_stat(u, Bonus.LifeSteal, Bonus.stat_int(u, Bonus.LifeSteal, 6))
+            call Bonus.save_stat(u, Bonus.ResistSpell, Bonus.stat_int(u, Bonus.ResistSpell, 2))
+            call PLAYER.systemchat(Player(pid), "Lifesteal: " + I2S(Bonus.stat_int(u, Bonus.LifeSteal, 0)) + "%% \n" + "Spell Resistance: " + I2S(Bonus.stat_int(u, Bonus.ResistSpell, 0)) + ".")
+        endif
         // Charge Item
         if GetItemType(acquire_item) == ITEM_TYPE_CHARGED then
      

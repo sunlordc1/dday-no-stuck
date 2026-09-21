@@ -362,16 +362,16 @@ function Rk takes nothing returns nothing
     set Hx = (Hx + 1)
 endfunction
 function Ik takes nothing returns nothing
-    call PanCameraToTimedLocForPlayer(Player(0), GetRectCenter(RD), 1.)
-    call PanCameraToTimedLocForPlayer(Player(1), GetRectCenter(RD), 1.)
-    call PanCameraToTimedLocForPlayer(Player(2), GetRectCenter(RD), 1.)
-    call PanCameraToTimedLocForPlayer(Player(3), GetRectCenter(RD), 1.)
-    call PanCameraToTimedLocForPlayer(Player(4), GetRectCenter(RD), 1.)
-    call PanCameraToTimedLocForPlayer(Player(6), GetRectCenter(ID), 1.)
-    call PanCameraToTimedLocForPlayer(Player(7), GetRectCenter(ID), 1.)
-    call PanCameraToTimedLocForPlayer(Player(8), GetRectCenter(ID), 1.)
-    call PanCameraToTimedLocForPlayer(Player(9), GetRectCenter(ID), 1.)
-    call PanCameraToTimedLocForPlayer(Player(10), GetRectCenter(ID), 1.)
+    // call PanCameraToTimedLocForPlayer(Player(0), GetRectCenter(RD), 1.)
+    // call PanCameraToTimedLocForPlayer(Player(1), GetRectCenter(RD), 1.)
+    // call PanCameraToTimedLocForPlayer(Player(2), GetRectCenter(RD), 1.)
+    // call PanCameraToTimedLocForPlayer(Player(3), GetRectCenter(RD), 1.)
+    // call PanCameraToTimedLocForPlayer(Player(4), GetRectCenter(RD), 1.)
+    // call PanCameraToTimedLocForPlayer(Player(6), GetRectCenter(ID), 1.)
+    // call PanCameraToTimedLocForPlayer(Player(7), GetRectCenter(ID), 1.)
+    // call PanCameraToTimedLocForPlayer(Player(8), GetRectCenter(ID), 1.)
+    // call PanCameraToTimedLocForPlayer(Player(9), GetRectCenter(ID), 1.)
+    // call PanCameraToTimedLocForPlayer(Player(10), GetRectCenter(ID), 1.)
 endfunction
 function Ak takes nothing returns nothing
     set ze = true
@@ -895,6 +895,15 @@ function QK takes nothing returns nothing
         exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
         if(JK())then
             set Ix = (Ix + 1)
+        endif
+        set bj_forLoopAIndex = bj_forLoopAIndex + 1
+    endloop
+       set bj_forLoopAIndex = 1
+    set bj_forLoopAIndexEnd = 6
+    loop
+        exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
+        if(GetItemTypeId(UnitItemInSlotBJ(GetManipulatingUnit(), bj_forLoopAIndex)) == 'evtl')then
+             set Ix = (Ix + 1)
         endif
         set bj_forLoopAIndex = bj_forLoopAIndex + 1
     endloop
@@ -3149,7 +3158,7 @@ function Xp takes nothing returns nothing
     set bj_forLoopAIndexEnd = 6
     loop
         exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
-        if(Vp()) or GetItemTypeId(UnitItemInSlotBJ(GetManipulatingUnit(), bj_forLoopAIndex)) == 'brac'then
+        if(Vp()) then
             set Ix = (Ix + 1)
         endif
         set bj_forLoopAIndex = bj_forLoopAIndex + 1
@@ -5468,7 +5477,7 @@ endfunction
 function St takes nothing returns boolean
     return(UnitHasBuffBJ(Jo, 'B001') == false)
 endfunction
-function tt takes nothing returns nothing
+function tttt takes nothing returns nothing
     local unit qt = GetSpellTargetUnit()
     call UnitAddAbility(qt, 'Apiv')
     loop
@@ -9197,43 +9206,43 @@ function h1 takes nothing returns boolean
     return(GetItemTypeId(GetManipulatedItem()) == 'I00M')
 endfunction
 function H1 takes nothing returns nothing
-    call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ("Player " + (GetPlayerName(GetTriggerPlayer()) + StringCase(" JUST GOT ZALMOXES ! BEWARE !", false))))
+    // call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ("Player " + (GetPlayerName(GetTriggerPlayer()) + StringCase(" JUST GOT ZALMOXES ! BEWARE !", false))))
 endfunction
 function j1 takes nothing returns boolean
     return(GetItemTypeId(GetManipulatedItem()) == 'I00N')
 endfunction
 function J1 takes nothing returns nothing
-    call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ("Player " + (GetPlayerName(GetTriggerPlayer()) + StringCase(" JUST GOT ATTILA ! BEWARE !", false))))
+    // call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ("Player " + (GetPlayerName(GetTriggerPlayer()) + StringCase(" JUST GOT ATTILA ! BEWARE !", false))))
 endfunction
 function k1 takes nothing returns boolean
     return(GetItemTypeId(GetManipulatedItem()) == 'I00V')
 endfunction
 function K1 takes nothing returns nothing
-    call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ("Player " + (GetPlayerName(GetTriggerPlayer()) + StringCase(" JUST USED THE POWER OF THE ANK'S. ALL MORTALS BOW TO HIM !", true))))
+    // call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ("Player " + (GetPlayerName(GetTriggerPlayer()) + StringCase(" JUST USED THE POWER OF THE ANK'S. ALL MORTALS BOW TO HIM !", true))))
 endfunction
 function L1 takes nothing returns boolean
     return(GetItemTypeId(GetManipulatedItem()) == 'I00S')
 endfunction
 function m1 takes nothing returns nothing
-    call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ("Player " + (GetPlayerName(GetTriggerPlayer()) + StringCase(" JUST GOT ARMOUR OF GODS ! BEWARE !", false))))
+    // call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ("Player " + (GetPlayerName(GetTriggerPlayer()) + StringCase(" JUST GOT ARMOUR OF GODS ! BEWARE !", false))))
 endfunction
 function M1 takes nothing returns boolean
     return(GetItemTypeId(GetManipulatedItem()) == 'I00R')
 endfunction
 function p1 takes nothing returns nothing
-    call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ("Player " + (GetPlayerName(GetTriggerPlayer()) + StringCase(" JUST GOT ARMOUR OF ROCK ! BEWARE !", false))))
+    // call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ("Player " + (GetPlayerName(GetTriggerPlayer()) + StringCase(" JUST GOT ARMOUR OF ROCK ! BEWARE !", false))))
 endfunction
 function P1 takes nothing returns boolean
     return(GetItemTypeId(GetManipulatedItem()) == 'I002')
 endfunction
 function q1 takes nothing returns nothing
-    call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ("Player " + (GetPlayerName(GetTriggerPlayer()) + StringCase(" JUST GOT STEELSKIN ! BEWARE !", false))))
+    // call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ("Player " + (GetPlayerName(GetTriggerPlayer()) + StringCase(" JUST GOT STEELSKIN ! BEWARE !", false))))
 endfunction
 function Q1 takes nothing returns boolean
     return(GetItemTypeId(GetManipulatedItem()) == 'I000')
 endfunction
 function s1 takes nothing returns nothing
-    call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ("Player " + (GetPlayerName(GetTriggerPlayer()) + StringCase(" JUST GOT FANATICISM ! BEWARE !", false))))
+    // call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ("Player " + (GetPlayerName(GetTriggerPlayer()) + StringCase(" JUST GOT FANATICISM ! BEWARE !", false))))
 endfunction
 function S1 takes nothing returns boolean
     return(GetItemTypeId(GetManipulatedItem()) == 'IC13')
@@ -9245,7 +9254,7 @@ function U1 takes nothing returns boolean
     return(GetItemTypeId(GetManipulatedItem()) == 'modt')
 endfunction
 function w1 takes nothing returns nothing
-    call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ("Player " + (GetPlayerName(GetTriggerPlayer()) + StringCase(" JUST GOT VAMPIRIC POWER ! BEWARE !", false))))
+    // call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ("Player " + (GetPlayerName(GetTriggerPlayer()) + StringCase(" JUST GOT VAMPIRIC POWER ! BEWARE !", false))))
 endfunction
 function W1 takes nothing returns boolean
     return(GetItemTypeId(GetManipulatedItem()) == 'I01I')and(IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO))
@@ -9507,8 +9516,8 @@ function g2 takes nothing returns nothing
         call UnitAddItemByIdSwapped('I02P', GetTriggerUnit())
         call DestroyEffect(AddSpecialEffectTargetUnitBJ("origin", GetTriggerUnit(), "Abilities\\Spells\\Items\\AIam\\AIamTarget.mdl"))
     else
-        call AdjustPlayerStateBJ(1500, GetOwningPlayer(GetTriggerUnit()), PLAYER_STATE_RESOURCE_GOLD)
-        call AdjustPlayerStateBJ(15, GetOwningPlayer(GetTriggerUnit()), PLAYER_STATE_RESOURCE_LUMBER)
+        call AdjustPlayerStateBJ(1000, GetOwningPlayer(GetTriggerUnit()), PLAYER_STATE_RESOURCE_GOLD)
+        call AdjustPlayerStateBJ(10, GetOwningPlayer(GetTriggerUnit()), PLAYER_STATE_RESOURCE_LUMBER)
         call RemoveItem(GetItemOfTypeFromUnitBJ(GetTriggerUnit(), 'I02O'))
         call DisplayTimedTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, 30, "The gods refuse to assist you !")
         call DestroyEffect(AddSpecialEffectTargetUnitBJ("origin", GetTriggerUnit(), "Abilities\\Spells\\Human\\HolyBolt\\HolyBoltSpecialArt.mdl"))
@@ -11348,7 +11357,7 @@ function q3 takes nothing returns nothing
     call TriggerAddAction(dE, function Pt)
     call TriggerRegisterAnyUnitEventBJ(DE, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(DE, Condition(function Qt))
-    call TriggerAddAction(DE, function tt)
+    call TriggerAddAction(DE, function tttt)
     call TriggerRegisterAnyUnitEventBJ(fE, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(fE, Condition(function Tt))
     call TriggerAddAction(fE, function Yt)
@@ -13071,14 +13080,15 @@ function P4 takes nothing returns boolean
 endfunction
 function q4 takes nothing returns nothing
     if(P4())then
-        set zb[GetConvertedPlayerId(GetTriggerPlayer())] = true
+        set zb[GetPlayerId(GetTriggerPlayer())] = true
         call DisplayTimedTextToForce(GetForceOfPlayer(GetTriggerPlayer()), 5.00, "|cffffcc00Turn on Display Damage|r")
     else
-        set zb[GetConvertedPlayerId(GetTriggerPlayer())] = false
+        set zb[GetPlayerId(GetTriggerPlayer())] = false
         call DisplayTimedTextToForce(GetForceOfPlayer(GetTriggerPlayer()), 5.00, "|cffffcc00Turn off Display Damage|r")
     endif
 endfunction
 function Q4 takes nothing returns nothing
+    //No textdamage
     set of = CreateTrigger()
     call TriggerRegisterPlayerChatEvent(of, Player(0), "-dmg", true)
     call TriggerRegisterPlayerChatEvent(of, Player(1), "-dmg", true)

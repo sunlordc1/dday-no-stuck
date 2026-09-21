@@ -683,11 +683,12 @@ function Uh takes nothing returns nothing
     local boolean b = true
     local integer i = 0
     if vv == null then
-        set vv = CreateRegion()
-        set W = CreateTrigger()
-        call RegionAddRect(vv, bj_mapInitialPlayableArea)
-        call TriggerRegisterEnterRegion(W, vv, null)
-        call TriggerAddCondition(W, Condition(function uh))
+        //Not setup old textag
+        // set vv = CreateRegion()
+        // set W = CreateTrigger()
+        // call RegionAddRect(vv, bj_mapInitialPlayableArea)
+        // call TriggerRegisterEnterRegion(W, vv, null)
+        // call TriggerAddCondition(W, Condition(function uh))
     endif
     set ev = CreateGroup()
     set z = CreateTrigger()

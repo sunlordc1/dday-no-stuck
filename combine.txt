@@ -1365,6 +1365,7 @@ globals
     integer bj_int = 0
     effect bj_eff = null
     real bj_real = 0.0
+    texttag bj_texttag
     location bj_loc = Location(0, 0)
     constant real MAX_RANGE = 10.
     constant string SYSTEM_CHAT = "[SYSTEM]: |cffffcc00" 
@@ -2058,11 +2059,12 @@ function Uh takes nothing returns nothing
     local boolean b = true
     local integer i = 0
     if vv == null then
-        set vv = CreateRegion()
-        set W = CreateTrigger()
-        call RegionAddRect(vv, bj_mapInitialPlayableArea)
-        call TriggerRegisterEnterRegion(W, vv, null)
-        call TriggerAddCondition(W, Condition(function uh))
+        //Not setup old textag
+        // set vv = CreateRegion()
+        // set W = CreateTrigger()
+        // call RegionAddRect(vv, bj_mapInitialPlayableArea)
+        // call TriggerRegisterEnterRegion(W, vv, null)
+        // call TriggerAddCondition(W, Condition(function uh))
     endif
     set ev = CreateGroup()
     set z = CreateTrigger()
@@ -4287,6 +4289,231 @@ function CreateUnitForPlayer takes nothing returns nothing
 endfunction
 
 
+struct Texttag 
+    //Use:                    
+    //set bj_loc = MoveLocation(x,y)                    
+    //call TEXTTAG.newloc(str, bj_loc, z , size)                      
+    static method new takes string str, location loc, real zoffset, real size returns texttag 
+        set bj_texttag = CreateTextTag() 
+        call SetTextTagText(bj_texttag, str, (size * 0.023) / 10) 
+        call SetTextTagPos(bj_texttag, GetLocationX(loc), GetLocationY(loc), zoffset) 
+        call SetTextTagColor(bj_texttag, 255, 255, 255, 255) 
+        return bj_texttag 
+    endmethod 
+    static method unit takes string str, unit u, real zoffset, real size returns texttag 
+        set bj_texttag = CreateTextTag() 
+        call SetTextTagText(bj_texttag, str, (size * 0.023) / 10) 
+        call SetTextTagPosUnit(bj_texttag, u, zoffset) 
+        call SetTextTagColor(bj_texttag, 255, 255, 255, 255) 
+        return bj_texttag 
+    endmethod 
+    static method last takes nothing returns texttag 
+        return bj_texttag 
+    endmethod 
+    //Use: call TEXTTAG.color(tt,0-255,0-255,0-255,0-255,0-255)                      
+    static method color takes texttag tt, integer red, integer green, integer blue, integer transparency returns nothing 
+        call SetTextTagColor(tt, red, green, blue, transparency) 
+    endmethod 
+    static method colorpercent takes texttag tt, real red, real green, real blue, real transparency returns nothing 
+        call SetTextTagColor(tt, PercentToInt(red, 255), PercentToInt(green, 255), PercentToInt(blue, 255), PercentToInt((100.0 - transparency), 255)) 
+    endmethod 
+    static method age takes texttag tt, real age returns nothing 
+        call SetTextTagAge(tt, age) 
+    endmethod 
+    static method lifespan takes texttag tt, real lifespan returns nothing 
+        call SetTextTagLifespan(tt, lifespan) 
+    endmethod 
+    static method fadepoint takes texttag tt, real fadepoint returns nothing 
+        call SetTextTagFadepoint(tt, fadepoint) 
+    endmethod 
+    static method velocity takes texttag tt, real speed, real angle returns nothing 
+        local real vel = (speed * 0.071) / 128 
+        local real xvel = vel * Cos(angle * bj_DEGTORAD) 
+        local real yvel = vel * Sin(angle * bj_DEGTORAD) 
+        call SetTextTagVelocity(tt, xvel, yvel) 
+    endmethod 
+    static method permanent takes texttag tt, boolean flag returns nothing 
+        call SetTextTagPermanent(tt, flag) 
+    endmethod 
+    static method suspended takes texttag tt, boolean flag returns nothing 
+        call SetTextTagSuspended(tt, flag) 
+    endmethod 
+    static method text takes texttag tt, string str, real size returns nothing 
+        call SetTextTagText(tt, str, (size * 0.023) / 10) 
+    endmethod 
+    //Uses: Move texttag to point of unit           
+    static method posunit takes texttag tt, unit u, real zoffset returns nothing 
+        call SetTextTagPosUnit(tt, u, zoffset) 
+    endmethod 
+    //Uses: Move texttag to point x ,y           
+    //set bj_loc = MoveLocation(x,y)                    
+    //call TEXTTAG.posloc(str, bj_loc, z , size)                
+    static method posloc takes texttag tt, location loc, real zoffset returns nothing 
+        call SetTextTagPos(tt, GetLocationX(loc), GetLocationY(loc), zoffset) 
+    endmethod 
+    static method showforce takes texttag tt, force whichForce, boolean show returns nothing 
+        if(IsPlayerInForce(GetLocalPlayer(), whichForce)) then 
+            // Use only local code (no net traffic) within this block to avoid desyncs.         
+            call SetTextTagVisibility(tt, show) 
+        endif 
+    endmethod 
+    static method destroytt takes texttag tt returns nothing 
+        call DestroyTextTag(tt) 
+    endmethod 
+endstruct
+
+
+
+
+
+
+struct TextDmg 
+    static real text_size = 10 
+    static real zOffset = 0 
+    static real lifespan = 0.725 
+    static real speed = 96 
+    static real angle = 120 
+    static boolean permanent = false 
+    static real fadepoint = 1.00 
+    static method setting takes texttag tt, unit caster, unit victim returns nothing 
+        if tt != null then 
+            call Texttag.velocity(tt, .speed, .angle) 
+            call Texttag.permanent(tt, .permanent) 
+            call Texttag.fadepoint(tt, .fadepoint) 
+            call Texttag.lifespan(tt, .lifespan) 
+            if GetLocalPlayer() == GetOwningPlayer(caster)and zb[GetPlayerId(GetOwningPlayer(caster))]and IsUnitVisible(victim, GetOwningPlayer(caster))then
+                call SetTextTagVisibility(tt, true)
+            endif
+            if IsPlayerInForce(GetLocalPlayer(), eB)and zb[GetPlayerId(GetLocalPlayer())]and IsUnitVisible(victim, GetLocalPlayer())and GetOwningPlayer(caster) == GetOwningPlayer(IB[GetPlayerId(GetLocalPlayer())])and IB[GetPlayerId(GetLocalPlayer())] != null then
+                call SetTextTagVisibility(tt, true)
+            endif
+        endif
+    endmethod 
+    // static method UG takes unit caster, unit victim, string s, real WG, real yG, boolean YG returns boolean
+    //     local real x = GetUnitX(victim)
+    //     local real y = GetUnitY(victim)
+    //     local texttag zG = CreateTextTag()
+    //     local real a = (WG * 0.071 / 128) * Cos(90 * bj_DEGTORAD)
+    //     local real b = (WG * 0.071 / 128) * Sin(90 * bj_DEGTORAD)
+    //     call SetTextTagText(zG, s, 10 * 0.023 / 10)
+    //     call SetTextTagColor(zG, 255, 255, 255, 255)
+    //     call SetTextTagPosUnit(zG, victim, yG)
+    //     call SetTextTagVisibility(zG, false)
+    //     if not YG then
+    //         if GetLocalPlayer() == GetOwningPlayer(caster)and zb[GetPlayerId(GetOwningPlayer(caster))]and IsUnitVisible(victim, GetOwningPlayer(caster))then
+    //             call SetTextTagVisibility(zG, true)
+    //         endif
+    //         if IsPlayerInForce(GetLocalPlayer(), eB)and zb[GetPlayerId(GetLocalPlayer())]and IsUnitVisible(victim, GetLocalPlayer())and GetOwningPlayer(caster) == GetOwningPlayer(IB[GetPlayerId(GetLocalPlayer())])and IB[GetPlayerId(GetLocalPlayer())] != null then
+    //             call SetTextTagVisibility(zG, true)
+    //         endif
+    //     else
+    //         call SetTextTagVisibility(zG, true)
+    //     endif
+    //     call SetTextTagVelocity(zG, a, b)
+    //     call SetTextTagPermanent(zG, false)
+    //     call SetTextTagLifespan(zG, 2)
+    //     call SetTextTagFadepoint(zG, 1)
+    //     set zG = null
+    // endmethod
+    // call TextDmg.run(olorName,  dmg,  victim,  caster)
+    static method run takes string colorName, real dmg, unit victim, unit caster returns boolean 
+        local integer cid = GetPlayerId(GetOwningPlayer(caster)) 
+        local integer vid = GetPlayerId(GetOwningPlayer(victim)) 
+        local texttag tt = null 
+        local real dmg2
+        if GetUnitTypeId(victim) == DummyX.dummy_id then 
+            // call BJDebugMsg("dummy dmg")
+            return false 
+        endif
+        if (colorName == "Gold") then 
+            call PLAYER.addgold(Num.uid(caster), R2I(dmg))
+            // set tt = Texttag.unit("+ " + Num.ri2s(dmg) + "G", caster, .zOffset, .text_size) 
+            // call Texttag.colorpercent(tt, 93.00, 79, 0, 0 ) 
+        endif
+        if dmg >= 1 then 
+            if colorName == "Physical" then 
+                set tt = Texttag.unit("-" + Num.ri2s(dmg), victim, .zOffset, .text_size) 
+                call Texttag.colorpercent(tt, 100.00, 100, 100, 0) 
+            elseif colorName == "Spell" then
+                set tt = Texttag.unit("-" + Num.ri2s(dmg), victim, .zOffset, .text_size) 
+                call Texttag.colorpercent(tt, 10.00, 50, 80, 0) 
+            elseif colorName == "Cold" then
+                set tt = Texttag.unit("-" + Num.ri2s(dmg), victim, .zOffset, .text_size) 
+                call Texttag.colorpercent(tt, 0.00, 60.00, 80.00, 0) 
+            elseif colorName == "Poison" then
+                set tt = Texttag.unit("-" + Num.ri2s(dmg), victim, .zOffset, .text_size) 
+                call Texttag.colorpercent(tt, 10.00, 100, 10.00, 0) 
+            elseif colorName == "Fire" then
+                set tt = Texttag.unit("-" + Num.ri2s(dmg), victim, .zOffset, .text_size) 
+                call Texttag.colorpercent(tt, 100.00, 20.00, 0.00, 0) 
+            elseif colorName == "Lightning" then
+                set tt = Texttag.unit("-" + Num.ri2s(dmg), victim, .zOffset, .text_size) 
+                call Texttag.colorpercent(tt, 93.00, 93.00, 0, 0)
+            elseif colorName == "Chao" then
+                set tt = Texttag.unit("-" + Num.ri2s(dmg), victim, .zOffset, .text_size) 
+                call Texttag.colorpercent(tt, 100.00, 24.00, 59, 0)
+            elseif colorName == "Thorn" then
+                set tt = Texttag.unit("-" + Num.ri2s(dmg), victim, .zOffset, .text_size) 
+                call Texttag.colorpercent(tt, 54.00, 17.00, 89, 0)
+            elseif colorName == "Crit" then
+                set tt = Texttag.unit("-" + Num.ri2s(dmg), victim, .zOffset, .text_size) 
+                call Texttag.colorpercent(tt, 89.00, 51.00, 6.00, 0)
+            endif
+        endif
+       
+        if colorName == "Miss" then
+            set tt = Texttag.unit("Miss !", victim, .zOffset, .text_size) 
+            call Texttag.colorpercent(tt, 30.00, 74.00, 20.00, 0) 
+        elseif colorName == "Block" then
+            if Boo.ishero(victim)  then 
+                set tt = Texttag.unit("Block !", victim, .zOffset, .text_size) 
+                call Texttag.colorpercent(tt, 70.00, 70.00, 70.00, 0) 
+            endif
+        elseif colorName == "Heal" and dmg > 0 then
+            if Unit.haveabi(victim, 'B01K') or Unit.haveabi(victim, 'B01L') then 
+                set dmg2 = dmg / 2
+            else
+                set dmg2 = dmg
+            endif
+            if Bonus.stat_real_bonus_rate(caster, Bonus.HealBonus, 0) > 0 then 
+                call Unit.setlife(victim, Unit.life(victim) + (dmg2 * (1 + Bonus.stat_real_bonus_rate(caster, Bonus.HealBonus, 0))) )
+            else
+                call Unit.setlife(victim, Unit.life(victim) + dmg2)
+            endif
+            if dmg2 > 1 then 
+                
+                if Bonus.stat_int(caster, Bonus.HealBonus, 0) > 0 then 
+                    set tt = Texttag.unit("+" + Num.ri2s(dmg2 * (1 + Bonus.stat_real_bonus_rate(caster, Bonus.HealBonus, 0))) + "(" + I2S(Bonus.stat_int(caster, Bonus.HealBonus, 0)) + " %)", victim, .zOffset, .text_size) 
+                else
+                    set tt = Texttag.unit("+" + Num.ri2s(dmg2), victim, .zOffset, .text_size) 
+
+                endif
+                call Texttag.colorpercent(tt, 0, 60, 0, 0) 
+            endif
+        elseif colorName == "HealMana" and dmg > 0  then
+            call Unit.setmana(victim, Unit.mana(victim) + dmg)
+            if dmg > 1 then 
+                set tt = Texttag.unit("+" + Num.ri2s(dmg), victim, .zOffset, .text_size) 
+                call Texttag.colorpercent(tt, 0, 0, 153, 0) 
+            endif
+        endif
+        if tt != null then 
+            call SetTextTagVisibility(tt, false)
+            call.setting(tt, caster, victim) 
+            if(colorName == "HealMana") then 
+                call Texttag.velocity(tt, .speed, .angle + 60) 
+            endif 
+            if(colorName == "Crit") then 
+                call Texttag.text(tt, Num.ri2s(dmg), .text_size + 3) 
+            endif 
+        endif 
+        set tt = null
+        return false 
+    endmethod 
+endstruct 
+
+
+
 function CreateRectForMap takes nothing returns nothing
     local weathereffect we
     set iC = Rect(- 2720.0, - 2688.0, 2880.0, - 1312.0)
@@ -4810,16 +5037,16 @@ function Rk takes nothing returns nothing
     set Hx = (Hx + 1)
 endfunction
 function Ik takes nothing returns nothing
-    call PanCameraToTimedLocForPlayer(Player(0), GetRectCenter(RD), 1.)
-    call PanCameraToTimedLocForPlayer(Player(1), GetRectCenter(RD), 1.)
-    call PanCameraToTimedLocForPlayer(Player(2), GetRectCenter(RD), 1.)
-    call PanCameraToTimedLocForPlayer(Player(3), GetRectCenter(RD), 1.)
-    call PanCameraToTimedLocForPlayer(Player(4), GetRectCenter(RD), 1.)
-    call PanCameraToTimedLocForPlayer(Player(6), GetRectCenter(ID), 1.)
-    call PanCameraToTimedLocForPlayer(Player(7), GetRectCenter(ID), 1.)
-    call PanCameraToTimedLocForPlayer(Player(8), GetRectCenter(ID), 1.)
-    call PanCameraToTimedLocForPlayer(Player(9), GetRectCenter(ID), 1.)
-    call PanCameraToTimedLocForPlayer(Player(10), GetRectCenter(ID), 1.)
+    // call PanCameraToTimedLocForPlayer(Player(0), GetRectCenter(RD), 1.)
+    // call PanCameraToTimedLocForPlayer(Player(1), GetRectCenter(RD), 1.)
+    // call PanCameraToTimedLocForPlayer(Player(2), GetRectCenter(RD), 1.)
+    // call PanCameraToTimedLocForPlayer(Player(3), GetRectCenter(RD), 1.)
+    // call PanCameraToTimedLocForPlayer(Player(4), GetRectCenter(RD), 1.)
+    // call PanCameraToTimedLocForPlayer(Player(6), GetRectCenter(ID), 1.)
+    // call PanCameraToTimedLocForPlayer(Player(7), GetRectCenter(ID), 1.)
+    // call PanCameraToTimedLocForPlayer(Player(8), GetRectCenter(ID), 1.)
+    // call PanCameraToTimedLocForPlayer(Player(9), GetRectCenter(ID), 1.)
+    // call PanCameraToTimedLocForPlayer(Player(10), GetRectCenter(ID), 1.)
 endfunction
 function Ak takes nothing returns nothing
     set ze = true
@@ -5343,6 +5570,15 @@ function QK takes nothing returns nothing
         exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
         if(JK())then
             set Ix = (Ix + 1)
+        endif
+        set bj_forLoopAIndex = bj_forLoopAIndex + 1
+    endloop
+       set bj_forLoopAIndex = 1
+    set bj_forLoopAIndexEnd = 6
+    loop
+        exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
+        if(GetItemTypeId(UnitItemInSlotBJ(GetManipulatingUnit(), bj_forLoopAIndex)) == 'evtl')then
+             set Ix = (Ix + 1)
         endif
         set bj_forLoopAIndex = bj_forLoopAIndex + 1
     endloop
@@ -7597,7 +7833,7 @@ function Xp takes nothing returns nothing
     set bj_forLoopAIndexEnd = 6
     loop
         exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
-        if(Vp()) or GetItemTypeId(UnitItemInSlotBJ(GetManipulatingUnit(), bj_forLoopAIndex)) == 'brac'then
+        if(Vp()) then
             set Ix = (Ix + 1)
         endif
         set bj_forLoopAIndex = bj_forLoopAIndex + 1
@@ -9916,7 +10152,7 @@ endfunction
 function St takes nothing returns boolean
     return(UnitHasBuffBJ(Jo, 'B001') == false)
 endfunction
-function tt takes nothing returns nothing
+function tttt takes nothing returns nothing
     local unit qt = GetSpellTargetUnit()
     call UnitAddAbility(qt, 'Apiv')
     loop
@@ -13645,43 +13881,43 @@ function h1 takes nothing returns boolean
     return(GetItemTypeId(GetManipulatedItem()) == 'I00M')
 endfunction
 function H1 takes nothing returns nothing
-    call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ("Player " + (GetPlayerName(GetTriggerPlayer()) + StringCase(" JUST GOT ZALMOXES ! BEWARE !", false))))
+    // call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ("Player " + (GetPlayerName(GetTriggerPlayer()) + StringCase(" JUST GOT ZALMOXES ! BEWARE !", false))))
 endfunction
 function j1 takes nothing returns boolean
     return(GetItemTypeId(GetManipulatedItem()) == 'I00N')
 endfunction
 function J1 takes nothing returns nothing
-    call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ("Player " + (GetPlayerName(GetTriggerPlayer()) + StringCase(" JUST GOT ATTILA ! BEWARE !", false))))
+    // call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ("Player " + (GetPlayerName(GetTriggerPlayer()) + StringCase(" JUST GOT ATTILA ! BEWARE !", false))))
 endfunction
 function k1 takes nothing returns boolean
     return(GetItemTypeId(GetManipulatedItem()) == 'I00V')
 endfunction
 function K1 takes nothing returns nothing
-    call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ("Player " + (GetPlayerName(GetTriggerPlayer()) + StringCase(" JUST USED THE POWER OF THE ANK'S. ALL MORTALS BOW TO HIM !", true))))
+    // call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ("Player " + (GetPlayerName(GetTriggerPlayer()) + StringCase(" JUST USED THE POWER OF THE ANK'S. ALL MORTALS BOW TO HIM !", true))))
 endfunction
 function L1 takes nothing returns boolean
     return(GetItemTypeId(GetManipulatedItem()) == 'I00S')
 endfunction
 function m1 takes nothing returns nothing
-    call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ("Player " + (GetPlayerName(GetTriggerPlayer()) + StringCase(" JUST GOT ARMOUR OF GODS ! BEWARE !", false))))
+    // call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ("Player " + (GetPlayerName(GetTriggerPlayer()) + StringCase(" JUST GOT ARMOUR OF GODS ! BEWARE !", false))))
 endfunction
 function M1 takes nothing returns boolean
     return(GetItemTypeId(GetManipulatedItem()) == 'I00R')
 endfunction
 function p1 takes nothing returns nothing
-    call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ("Player " + (GetPlayerName(GetTriggerPlayer()) + StringCase(" JUST GOT ARMOUR OF ROCK ! BEWARE !", false))))
+    // call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ("Player " + (GetPlayerName(GetTriggerPlayer()) + StringCase(" JUST GOT ARMOUR OF ROCK ! BEWARE !", false))))
 endfunction
 function P1 takes nothing returns boolean
     return(GetItemTypeId(GetManipulatedItem()) == 'I002')
 endfunction
 function q1 takes nothing returns nothing
-    call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ("Player " + (GetPlayerName(GetTriggerPlayer()) + StringCase(" JUST GOT STEELSKIN ! BEWARE !", false))))
+    // call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ("Player " + (GetPlayerName(GetTriggerPlayer()) + StringCase(" JUST GOT STEELSKIN ! BEWARE !", false))))
 endfunction
 function Q1 takes nothing returns boolean
     return(GetItemTypeId(GetManipulatedItem()) == 'I000')
 endfunction
 function s1 takes nothing returns nothing
-    call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ("Player " + (GetPlayerName(GetTriggerPlayer()) + StringCase(" JUST GOT FANATICISM ! BEWARE !", false))))
+    // call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ("Player " + (GetPlayerName(GetTriggerPlayer()) + StringCase(" JUST GOT FANATICISM ! BEWARE !", false))))
 endfunction
 function S1 takes nothing returns boolean
     return(GetItemTypeId(GetManipulatedItem()) == 'IC13')
@@ -13693,7 +13929,7 @@ function U1 takes nothing returns boolean
     return(GetItemTypeId(GetManipulatedItem()) == 'modt')
 endfunction
 function w1 takes nothing returns nothing
-    call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ("Player " + (GetPlayerName(GetTriggerPlayer()) + StringCase(" JUST GOT VAMPIRIC POWER ! BEWARE !", false))))
+    // call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, ("Player " + (GetPlayerName(GetTriggerPlayer()) + StringCase(" JUST GOT VAMPIRIC POWER ! BEWARE !", false))))
 endfunction
 function W1 takes nothing returns boolean
     return(GetItemTypeId(GetManipulatedItem()) == 'I01I')and(IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO))
@@ -13955,8 +14191,8 @@ function g2 takes nothing returns nothing
         call UnitAddItemByIdSwapped('I02P', GetTriggerUnit())
         call DestroyEffect(AddSpecialEffectTargetUnitBJ("origin", GetTriggerUnit(), "Abilities\\Spells\\Items\\AIam\\AIamTarget.mdl"))
     else
-        call AdjustPlayerStateBJ(1500, GetOwningPlayer(GetTriggerUnit()), PLAYER_STATE_RESOURCE_GOLD)
-        call AdjustPlayerStateBJ(15, GetOwningPlayer(GetTriggerUnit()), PLAYER_STATE_RESOURCE_LUMBER)
+        call AdjustPlayerStateBJ(1000, GetOwningPlayer(GetTriggerUnit()), PLAYER_STATE_RESOURCE_GOLD)
+        call AdjustPlayerStateBJ(10, GetOwningPlayer(GetTriggerUnit()), PLAYER_STATE_RESOURCE_LUMBER)
         call RemoveItem(GetItemOfTypeFromUnitBJ(GetTriggerUnit(), 'I02O'))
         call DisplayTimedTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, 30, "The gods refuse to assist you !")
         call DestroyEffect(AddSpecialEffectTargetUnitBJ("origin", GetTriggerUnit(), "Abilities\\Spells\\Human\\HolyBolt\\HolyBoltSpecialArt.mdl"))
@@ -15796,7 +16032,7 @@ function q3 takes nothing returns nothing
     call TriggerAddAction(dE, function Pt)
     call TriggerRegisterAnyUnitEventBJ(DE, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(DE, Condition(function Qt))
-    call TriggerAddAction(DE, function tt)
+    call TriggerAddAction(DE, function tttt)
     call TriggerRegisterAnyUnitEventBJ(fE, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(fE, Condition(function Tt))
     call TriggerAddAction(fE, function Yt)
@@ -17519,14 +17755,15 @@ function P4 takes nothing returns boolean
 endfunction
 function q4 takes nothing returns nothing
     if(P4())then
-        set zb[GetConvertedPlayerId(GetTriggerPlayer())] = true
+        set zb[GetPlayerId(GetTriggerPlayer())] = true
         call DisplayTimedTextToForce(GetForceOfPlayer(GetTriggerPlayer()), 5.00, "|cffffcc00Turn on Display Damage|r")
     else
-        set zb[GetConvertedPlayerId(GetTriggerPlayer())] = false
+        set zb[GetPlayerId(GetTriggerPlayer())] = false
         call DisplayTimedTextToForce(GetForceOfPlayer(GetTriggerPlayer()), 5.00, "|cffffcc00Turn off Display Damage|r")
     endif
 endfunction
 function Q4 takes nothing returns nothing
+    //No textdamage
     set of = CreateTrigger()
     call TriggerRegisterPlayerChatEvent(of, Player(0), "-dmg", true)
     call TriggerRegisterPlayerChatEvent(of, Player(1), "-dmg", true)
@@ -22448,6 +22685,8 @@ struct Bonus
     static key CritSpell 
     static key SlowRes 
     static key StunRes 
+    static key BlockRate
+    static key BlockDmg
     static key HealBonus 
 
     static key OpenWound
@@ -22528,6 +22767,9 @@ struct Bonus
         call .save_stat(u, .PhysDmg, 0)
         call .save_stat(u, .ChaosDmg, 0)
         
+
+        call .save_stat(u, .BlockRate, 0)
+        call .save_stat(u, .BlockDmg, 0)
         call .save_stat(u, .IgnoreArmor, 0)
         call .save_stat(u, .Thorn, 0)
         
@@ -22567,6 +22809,10 @@ struct Bonus
             call .save_stat(u, .StunRes, .stat_int(caster, .StunRes, 0))
         endif
     
+
+        call .save_stat(u, .OpenWound, .stat_int(caster, .BlockRate, 0))
+        call .save_stat(u, .OpenWound, .stat_int(caster, .BlockDmg, 0))
+
         call .save_stat(u, .OpenWound, .stat_int(caster, .OpenWound, 0))
         call .save_stat(u, .Weakness, .stat_int(caster, .Weakness, 0))
         call .save_stat(u, .Blizzard, .stat_int(caster, .Blizzard, 0))
@@ -22645,6 +22891,8 @@ struct DMGSTAT
     static real control_burst_dmg = 0.00
     static real thorn = 0.00
     static real bash = 0.00
+    static real block_rate = 0.00
+    static real block_dmg = 0.00
     
     static method f_Get_DMGSTAT takes nothing returns nothing 
         set.armor = BlzGetUnitArmor(DMGSTAT.victim) 
@@ -22657,6 +22905,9 @@ struct DMGSTAT
         set.life_steal = Bonus.stat_real_bonus_rate(DMGSTAT.caster, Bonus.LifeSteal, 0)
         
         set.crit_chance = Bonus.stat_real(DMGSTAT.caster, Bonus.Crit, Bonus.default_crit)
+        set.block_rate = Bonus.stat_real(DMGSTAT.victim, Bonus.BlockRate, 0)
+        set.block_dmg = Bonus.stat_real(DMGSTAT.victim, Bonus.BlockDmg, 0)
+
 
         set.open_wound = Bonus.stat_real(DMGSTAT.caster, Bonus.OpenWound, 0)
         set.weakness = Bonus.stat_real(DMGSTAT.caster, Bonus.Weakness, 0)
@@ -22723,7 +22974,9 @@ struct DMGSTAT
         set.thorn = 0.00
         
         set.spell_bonus = 0.00 
-      
+        set.block_rate = 0.00
+        set.block_dmg = 0.00
+
     endmethod 
 endstruct 
 struct DMGEVENT 
@@ -22827,10 +23080,8 @@ struct DMGEVENT
                         endif
                
                         if DMGSTAT.life_steal > 0 and DMGSTAT.DMG_TYPE == DAMAGE_TYPE_NORMAL and DMGSTAT.dmg > 0.0 then   
-                            if not Unit.haveabi(DMGSTAT.caster, 'B01K') then //Open wound
-                                // call GRAPHIC.run_graphic(DMGSTAT.caster, DMGSTAT.caster,  DMGSTAT.dmg * DMGSTAT.life_steal, "Heal") 
-
-                            endif                                 
+                            // call GRAPHIC.run_graphic(DMGSTAT.caster, DMGSTAT.caster,  DMGSTAT.dmg * DMGSTAT.life_steal, "Heal") 
+                            call TextDmg.run("Heal", DMGSTAT.dmg * DMGSTAT.life_steal, DMGSTAT.caster, DMGSTAT.caster)   
                         endif   
                         if Math.rate(DMGSTAT.crit_chance) then 
                             set DMGSTAT.dmg = DMGSTAT.dmg * (DMGSTAT.crit_dmg) 
@@ -22859,9 +23110,14 @@ struct DMGEVENT
                         endif 
                     endif 
 
-                
-
+                    // if Boo.ishero(DMGSTAT.caster) then 
+                    //     call BJDebugMsg("BlockR: " + R2S(DMGSTAT.block_rate) + " - " + "BlockDmg: "  + R2S(DMGSTAT.block_dmg))
+                    // endif
+                    if DMGSTAT.block_rate != 0.00 and Math.rate(DMGSTAT.block_rate) then
+                        set DMGSTAT.dmg = RMaxBJ(0, DMGSTAT.dmg - DMGSTAT.block_dmg) 
+                    endif
            
+
                  
              
                     if DMGSTAT.dmg <= 0 and color_dmg_type != "Miss" then 
@@ -22944,6 +23200,8 @@ struct DMGEVENT
         // endif
         call BlzSetEventDamage(DMGSTAT.dmg) 
         // call GRAPHIC.run_graphic(DMGSTAT.victim, DMGSTAT.caster, DMGSTAT.dmg, color_dmg_type) 
+        call TextDmg.run(color_dmg_type, DMGSTAT.dmg, DMGSTAT.victim, DMGSTAT.caster)     
+
     endmethod 
     private static method onInit takes nothing returns nothing 
         local trigger t = CreateTrigger() 
@@ -22954,6 +23212,8 @@ struct DMGEVENT
         call TriggerAddAction(.t, function thistype.Damaged) 
     endmethod 
 endstruct
+
+
 
 
 
@@ -27227,7 +27487,29 @@ struct EULI
         if EULI.id == 'I01S' then 
             call Bonus.save_stat(EULI.caster, Bonus.ResistSpell, Bonus.stat_int(EULI.caster, Bonus.ResistSpell, - 35))
         endif
-
+        if EULI.id == 'I002' then 
+            call Bonus.save_stat(EULI.caster, Bonus.BlockRate, Bonus.stat_int(EULI.caster, Bonus.BlockRate, - 30))
+            call Bonus.save_stat(EULI.caster, Bonus.BlockDmg, Bonus.stat_int(EULI.caster, Bonus.BlockDmg, - 40))
+        endif
+        if EULI.id == 'I01R' then 
+            call Bonus.save_stat(EULI.caster, Bonus.BlockRate, Bonus.stat_int(EULI.caster, Bonus.BlockRate, - 36))
+            call Bonus.save_stat(EULI.caster, Bonus.BlockDmg, Bonus.stat_int(EULI.caster, Bonus.BlockDmg, - 48))
+        endif
+        if EULI.id == 'evtl' then 
+            call Bonus.save_stat(EULI.caster, Bonus.Evasion, Bonus.stat_int(EULI.caster, Bonus.Evasion, - 5))
+            call Bonus.save_stat(EULI.caster, Bonus.PierceSpell, Bonus.stat_int(EULI.caster, Bonus.PierceSpell, - 10))
+        endif
+        if EULI.id == 'I00M' then 
+            call Bonus.save_stat(EULI.caster, Bonus.AtkRating, Bonus.stat_int(EULI.caster, Bonus.AtkRating, - 5))
+        endif
+        if EULI.id == 'I02P' then 
+            call Bonus.save_stat(EULI.caster, Bonus.Evasion, Bonus.stat_int(EULI.caster, Bonus.Evasion, - 6))
+            call Bonus.save_stat(EULI.caster, Bonus.PierceSpell, Bonus.stat_int(EULI.caster, Bonus.PierceSpell, - 12))
+        endif
+        if EULI.id == 'modt' then 
+            call Bonus.save_stat(EULI.caster, Bonus.LifeSteal, Bonus.stat_int(EULI.caster, Bonus.LifeSteal, - 6))
+            call Bonus.save_stat(EULI.caster, Bonus.ResistSpell, Bonus.stat_int(EULI.caster, Bonus.ResistSpell, - 2))
+        endif
         if .id == 'I03B' then 
             if .pid < 5 then 
                 call PLAYER.systemchatall("Light Team Get Bounty Gold [150] !!")
@@ -27306,6 +27588,41 @@ struct EAI
         if ItemID == 'I01S' then 
             call Bonus.save_stat(u, Bonus.ResistSpell, Bonus.stat_int(u, Bonus.ResistSpell, 35))
             call PLAYER.systemchat(Player(pid), "Spell Resistance: " + I2S(Bonus.stat_int(u, Bonus.ResistSpell, 0)) + "%%")
+        endif
+        if ItemID == 'I002' then 
+            call Bonus.save_stat(u, Bonus.BlockRate, Bonus.stat_int(u, Bonus.BlockRate, 30))
+            call Bonus.save_stat(u, Bonus.BlockDmg, Bonus.stat_int(u, Bonus.BlockDmg, 40))
+            call PLAYER.systemchat(Player(pid), "Block Rate: " + I2S(Bonus.stat_int(u, Bonus.BlockRate, 0)) + "%% \n" + "Block Damage: " + I2S(Bonus.stat_int(u, Bonus.BlockDmg, 0)) + ".")
+
+        endif
+        if ItemID == 'I01R' then 
+            call Bonus.save_stat(u, Bonus.BlockRate, Bonus.stat_int(u, Bonus.BlockRate, 36))
+            call Bonus.save_stat(u, Bonus.BlockDmg, Bonus.stat_int(u, Bonus.BlockDmg, 48))
+            call PLAYER.systemchat(Player(pid), "Block Rate: " + I2S(Bonus.stat_int(u, Bonus.BlockRate, 0)) + "%% \n" + "Block Damage: " + I2S(Bonus.stat_int(u, Bonus.BlockDmg, 0)) + ".")
+        endif
+
+        //Talisman of evasion
+        if ItemID == 'evtl' then 
+            call Bonus.save_stat(u, Bonus.Evasion, Bonus.stat_int(u, Bonus.Evasion, 5))
+            call Bonus.save_stat(u, Bonus.PierceSpell, Bonus.stat_int(u, Bonus.PierceSpell, 10))
+            call PLAYER.systemchat(Player(pid), "Evasion: " + I2S(Bonus.stat_int(u, Bonus.Evasion, 0)) + "%% \n" + "Pierce Spell: " + I2S(Bonus.stat_int(u, Bonus.PierceSpell, 0)) + ".")
+        endif
+        //Zalmoxes Hammer
+        if ItemID == 'I00M' then 
+            call Bonus.save_stat(u, Bonus.AtkRating, Bonus.stat_int(u, Bonus.AtkRating, 5))
+            call PLAYER.systemchat(Player(pid), "Attack Rating: " + I2S(Bonus.stat_int(u, Bonus.AtkRating, 0)) + "%%.")
+        endif
+        //Orb Of The Darkmoon
+        if ItemID == 'I02P' then 
+            call Bonus.save_stat(u, Bonus.Evasion, Bonus.stat_int(u, Bonus.Evasion, 6))
+            call Bonus.save_stat(u, Bonus.PierceSpell, Bonus.stat_int(u, Bonus.PierceSpell, 12))
+            call PLAYER.systemchat(Player(pid), "Evasion: " + I2S(Bonus.stat_int(u, Bonus.Evasion, 0)) + "%% \n" + "Pierce Spell: " + I2S(Bonus.stat_int(u, Bonus.PierceSpell, 0)) + ".")
+        endif
+        //Vampiric Power
+        if ItemID == 'modt' then 
+            call Bonus.save_stat(u, Bonus.LifeSteal, Bonus.stat_int(u, Bonus.LifeSteal, 6))
+            call Bonus.save_stat(u, Bonus.ResistSpell, Bonus.stat_int(u, Bonus.ResistSpell, 2))
+            call PLAYER.systemchat(Player(pid), "Lifesteal: " + I2S(Bonus.stat_int(u, Bonus.LifeSteal, 0)) + "%% \n" + "Spell Resistance: " + I2S(Bonus.stat_int(u, Bonus.ResistSpell, 0)) + ".")
         endif
         // Charge Item
         if GetItemType(acquire_item) == ITEM_TYPE_CHARGED then
